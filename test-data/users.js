@@ -38,7 +38,7 @@ const users = {
             name: 'James Bond',
 
             userInfo: {
-                title: 'Mr.',
+                title: 'Mrs.',
                 password: 'Password123',
 
                 dateOfBirth: {
@@ -48,13 +48,17 @@ const users = {
                 },
 
                 firstName: 'James',
-                lastName: 'Bond'
+                lastName: 'Bond',
+
+                newsletter: false,
+                specialoffers: true
+
             },
 
             addressInfo: {
                 company: 'abc company',
                 address: 'abc street',
-                address1: 'abc street second',
+                address2: 'abc street second',
                 country: 'Canada',
                 state: 'abc state',
                 city: 'abc city',
@@ -63,14 +67,14 @@ const users = {
             }
         },
 
-        existingUser:{
+        existingUser: {
             existingEmail: 'test_user@gmail.com'
         }
-        
 
 
-        }
+
     }
+}
 //Export multiple things as properties of an object.
 module.exports = {
     users,

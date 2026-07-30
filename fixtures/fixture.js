@@ -4,6 +4,7 @@ const base = require('@playwright/test');
 
 const LoginPage = require('../pages/LoginPage');
 const SignupPage = require('../pages/SignupPage');
+const AccountInfo = require('../pages/AccountInformationPage');
 
 // Create a custom version of Playwright's test by extending the built-in fixtures.
 // This allows us to add our own fixtures (loginPage, signupPage, etc.).
@@ -14,7 +15,7 @@ exports.test = base.test.extend({
     // { page } - Playwright's built-in browser page fixture.
     // use - A special Playwright function that makes the fixture available to the test.
     loginPage: async ({ page }, use) => {
-        
+
         // Create an instance (object) of the LoginPage class.
         // The Playwright page is passed into the constructor so the Page Object can interact with the browser
         const loginPage = new LoginPage(page);
@@ -39,9 +40,14 @@ exports.test = base.test.extend({
 
     },
 
-   signupPage: async ({ page }, use) => {
+    signupPage: async ({ page }, use) => {
         await use(new SignupPage(page));
+    },
+
+    accountInfoPage: async ({ page }, use) => {
+        await use(new AccountInfo(page));
     }
+
 
 });
 

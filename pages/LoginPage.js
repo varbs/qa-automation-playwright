@@ -15,17 +15,17 @@ const BasePage = require('./BasePage');
 //
 // It only contains locators and methods that are
 // specific to the Login page.
-class LoginPage extends BasePage{
-    constructor(page){
+class LoginPage extends BasePage {
+    constructor(page) {
 
         // Call the BasePage constructor first.
         // This initializes the Playwright page object
         // and all shared locators/methods from BasePage.
-        super(page);  
+        super(page);
 
         // Store the Playwright page object so this class
         // can interact with the current browser tab.
-       // this.page = page; <- The BasePage constructor already has this, no need to code it again
+        // this.page = page; <- The BasePage constructor already has this, no need to code it again
 
         // ==========================
         // LOCATORS
@@ -35,7 +35,7 @@ class LoginPage extends BasePage{
         // The page contains both Login and Signup forms,
         // so filter() ensures we only interact with
         // the Login section.
-        this.loginForm = this.page.locator('form').filter({ hasText: 'Login'});
+        this.loginForm = this.page.locator('form').filter({ hasText: 'Login' });
 
         // Email textbook inside the login form
         this.emailTextbox = this.loginForm.getByPlaceholder('Email Address');
@@ -44,15 +44,15 @@ class LoginPage extends BasePage{
         this.passwordTextbox = this.loginForm.getByPlaceholder('Password');
 
         // Login button inside the login form
-        this.loginButton = this.loginForm.getByRole( 'button', { name: 'Login' });
+        this.loginButton = this.loginForm.getByRole('button', { name: 'Login' });
 
         // Error message displayed after an invalid login
-        this.errorMessage = page.getByText(
+        this.errorMessage = this.loginForm.getByText(
             'Your email or password is incorrect'
         );
 
         // Text shown after a successful login
-        this.validLogin = page.getByText('Logged in as');
+        this.validLogin = this.page.getByText('Logged in as');
 
     }
 
@@ -62,12 +62,12 @@ class LoginPage extends BasePage{
     // ==========================
 
     // Enter user's email
-    async enterEmail (email){
+    async enterEmail(email) {
         await this.emailTextbox.fill(email);
     }
-    
+
     // Enter user's password
-    async enterPassword (password){
+    async enterPassword(password) {
         await this.passwordTextbox.fill(password);
     }
 
@@ -100,8 +100,8 @@ class LoginPage extends BasePage{
     }
 
     // Verify that the user has successfully logged in.
-    async verifyValidLogin(){
-        await expect(this.validLogin).toBeVisible();    
+    async verifyValidLogin() {
+        await expect(this.validLogin).toBeVisible();
     }
 
 }
