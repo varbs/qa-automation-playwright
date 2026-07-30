@@ -6,11 +6,7 @@ class SignupPage extends BasePage{
     constructor(page){
 
         super(page);   // ✅ must be first
-
-        this.page = page;
-        
-        this.signupLoginLink = page.getByRole('link', { name: 'Signup / Login' });
-        
+                
         this.signupForm = page.locator('.signup-form');
 
         this.name = this.signupForm.getByPlaceholder('Name');
@@ -23,14 +19,6 @@ class SignupPage extends BasePage{
 
 
     }
-
-    // async goto(){
-    //     await this.page.goto('https://automationexercise.com');
-    // }
-
-    // async openSignupPage(){
-    //     await this.signupLoginLink.click();
-    // }
 
     async enterName(name){
         await this.name.fill(name);
@@ -47,7 +35,6 @@ class SignupPage extends BasePage{
     async signup(name, email){
         await this.enterName(name);
         await this.enterEmail(email);
-        await this.page.pause();
         await this.signupClick();
 
     }
