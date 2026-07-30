@@ -14,7 +14,7 @@ test("TC001 - Invalid sign-up", async ({ signupPage }) => {
     await signupPage.verifyExistingEmail();
 });
 
-test.only("TC002 - Valid sign-up", async ({ signupPage, accountInfoPage }) => {
+test("TC002 - Valid sign-up", async ({ signupPage, accountInfoPage }) => {
     const email = generateEmail();
 
     await signupPage.goto();
