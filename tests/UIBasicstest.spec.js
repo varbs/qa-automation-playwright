@@ -64,7 +64,7 @@ test.only('UI controls', async({page}) =>
     await page.getByLabel("Password").fill("Learning@830$3mK2");
     await dropdown.selectOption("teach");
     //await page.locator(".radiotextsty").last().click();
-    await page.locator("[value='use']").click();
+    await page.locator("[value='user']").click();
     await page.getByRole("button", { name: "Okay" }).click();
     //console.log(await expect(page.locator(".radiotextty").last().isChecked()));
 
