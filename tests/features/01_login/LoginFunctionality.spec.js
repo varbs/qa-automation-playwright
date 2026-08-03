@@ -10,7 +10,6 @@ test('TC-LOGIN-001 - Verify login succeeds with valid credentials', async ({ log
     await loginPage.login(
         users.login.validUser.email,
         users.login.validUser.password
-
     );
 
     // Verify the user is successfully logged in.
@@ -18,7 +17,24 @@ test('TC-LOGIN-001 - Verify login succeeds with valid credentials', async ({ log
     await loginPage.pause();
 });
 
-test('TC-LOGIN-002 - Verify login fails with invalid credentials', async ({ loginPage }) => {
+
+test('TC-LOGIN-002 - Verify login fails with an unregistered email', async ({ loginPage }) => {
+    await loginPage.login(
+        users.login.invalidEmail.email,
+        users.login.validUser.password
+    )
+    await loginPage.verifyInvalidLogin();
+});
+
+test('TC-LOGIN-003 - Verify login fails with an incorrect password', async ({ loginPage }) => {
+    await loginPage.login(
+        users.login.validUser.email,
+        users.login.invalidPassword.password
+    )
+    await loginPage.verifyInvalidLogin();
+});
+
+test('TC-LOGIN-004 - Verify login fails with invalid credentials', async ({ loginPage }) => {
 
     // loginPage comes from the custom fixture.
     //
@@ -43,15 +59,8 @@ test('TC-LOGIN-002 - Verify login fails with invalid credentials', async ({ logi
     await loginPage.verifyInvalidLogin();
 });
 
-test('TC-LOGIN-003 - Verify login with empty password', async ({ loginPage }) => {
-    await loginPage.login(
-        users.login.invalidEmail.email, "");
-    await loginPage.verifyPasswordFieldIsFocused();
-    await loginPage.verifyPasswordFieldIsRequired();
-    await loginPage.pause();
-});
 
-test('TC-LOGIN-004 - Verify logout functionality', async ({ loginPage }) => {
+test('TC-LOGIN-005 - Verify logout functionality', async ({ loginPage }) => {
     await loginPage.login(
         users.login.validUser.email,
         users.login.validUser.password

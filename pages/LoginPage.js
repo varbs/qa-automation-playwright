@@ -55,7 +55,7 @@ class LoginPage extends BasePage {
         this.validLogin = this.page.getByText('Logged in as');
 
         // Log out button
-        this.logoutButton = this.page.getByRole('link', { name: 'Logout '});
+        this.logoutButton = this.page.getByRole('link', { name: 'Logout ' });
 
         // home pae url
         this.homePageUrl = 'https://automationexercise.com/login';
@@ -97,7 +97,7 @@ class LoginPage extends BasePage {
     }
 
     // Click the logout button to log out the user.
-    async clickLogout(){
+    async clickLogout() {
         await this.logoutButton.click();
     }
 
@@ -115,21 +115,42 @@ class LoginPage extends BasePage {
         await expect(this.validLogin).toBeVisible();
     }
 
+    // Verify that the email field is required
+    async verifyEmailFieldIsRequired() {
+        const message = await this.emailTextbox.evaluate(
+            element => element.validationMessage
+        )
+        console.log('Validation message:', message);
+        expect(message).toContain('Please fill');
+    }
+    
+    // Verify that the email field is focused after clicking login button and the field is empty
+    async verifyEmailFieldIsFocused() {
+        await expect(this.emailTextbox).toBeFocused();
+    }
+
     // Verify that the password field is focused after clicking 
     // the login btn with password field empty
-    async verifyPasswordFieldIsFocused(){
+    async verifyPasswordFieldIsFocused() {
         await expect(this.passwordTextbox).toBeFocused();
     }
     // Verify that the password field is required
-    async verifyPasswordFieldIsRequired(){
+    async verifyPasswordFieldIsRequired() {
         const message = await this.passwordTextbox.evaluate(
             element => element.validationMessage
         )
         console.log('Validation message:', message);
         expect(message).toContain('Please fill');
     }
+    
+    // Verify that the password field is focused after clicking 
+    // the login btn with password field empty
+    async verifyPasswordFieldIsFocused() {
+        await expect(this.passwordTextbox).toBeFocused();
+    }
 
-    async verifyHomePageUrl(){
+    // Verify that the user is redirected to the home page after logging out.
+    async verifyHomePageUrl() {
         await expect(this.page).toHaveURL(this.homePageUrl);
     }
 }
