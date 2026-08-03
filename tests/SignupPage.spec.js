@@ -14,7 +14,7 @@ test("TC001 - Invalid sign-up", async ({ signupPage }) => {
     await signupPage.verifyExistingEmail();
 });
 
-test("TC002 - Valid sign-up", async ({ signupPage, accountInfoPage }) => {
+test.only("TC002 - Valid sign-up", async ({ signupPage, accountInfoPage }) => {
     const email = generateEmail();
 
     await signupPage.goto();
@@ -55,9 +55,13 @@ test("TC002 - Valid sign-up", async ({ signupPage, accountInfoPage }) => {
         users.signUp.validUser.addressInfo.address,
         users.signUp.validUser.addressInfo.address2
     )
+    await accountInfoPage.verifyCountryOptions();
     await accountInfoPage.selectCountry(
         users.signUp.validUser.addressInfo.country
     )
+    await accountInfoPage.verifySelectedCountry(
+        users.signUp.validUser.addressInfo.country
+    );
     await accountInfoPage.enterState(
         users.signUp.validUser.addressInfo.state
     )

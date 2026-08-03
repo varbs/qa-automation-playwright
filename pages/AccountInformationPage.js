@@ -102,9 +102,41 @@ class AccountInfo extends BasePage {
         await this.address.fill(address),
             await this.address2.fill(address2);
     }
+    // Verify the country's dropdown has options
+    async verifyCountryOptions() {
+        // Get the text of all options in the Country dropdown
+        const options = await this.country.locator('option').allTextContents();
+
+        // Print the total number of country for debugging
+        console.log(`Total countries: ${options.length}`);
+
+        // Print all country names for debugging
+        console.log('Countries:', options);
+
+        // Verify the dropdown contains options
+        expect(options.length).toBeGreaterThan(1);
+
+        // Verify the dropdown contains specific countries
+        expect(options).toContain('India');
+        expect(options).toContain('Canada');
+        expect(options).toContain('Singapore');
+    }
     // Select the user's country
     async selectCountry(country) {
         await this.country.selectOption(country);
+    }
+    // Verify the user's selected country is correct
+    async verifySelectedCountry(country) {
+        // Get the currently selected value
+        const selectedCountry = await this.country.inputValue();
+
+        // Print the selected country for debuggin
+        console.log('Selected country: ', selectedCountry);
+
+        // Verify the selected country matches the expected value
+        expect(selectedCountry).toBe(country);
+
+        //await expect(this.country).toHaveValue(country);
     }
     // Enter the user's state
     async enterState(state) {
@@ -135,7 +167,7 @@ class AccountInfo extends BasePage {
     async verifyEmail(email) {
         await expect(this.email).toHaveValue(email);
     }
-    async verifyAccountCompletion(){
+    async verifyAccountCompletion() {
         await expect(this.successMessage).toBeVisible();
     }
 }
