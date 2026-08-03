@@ -1,5 +1,5 @@
-const { users, generateEmail } = require("../test-data/users");
-const { test, expect } = require("../fixtures/fixture");
+const { users, generateEmail } = require("../../test-data/users");
+const { test, expect } = require("../../fixtures/fixture");
 
 test("TC001 - Invalid sign-up", async ({ signupPage }) => {
     await signupPage.goto();

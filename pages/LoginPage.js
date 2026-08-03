@@ -54,6 +54,12 @@ class LoginPage extends BasePage {
         // Text shown after a successful login
         this.validLogin = this.page.getByText('Logged in as');
 
+        // Log out button
+        this.logoutButton = this.page.getByRole('link', { name: 'Logout '});
+
+        // home pae url
+        this.homePageUrl = 'https://automationexercise.com/login';
+
     }
 
 
@@ -90,6 +96,11 @@ class LoginPage extends BasePage {
         await this.clickLogin();
     }
 
+    // Click the logout button to log out the user.
+    async clickLogout(){
+        await this.logoutButton.click();
+    }
+
     // ==========================
     // ASSERTIONS
     // ==========================
@@ -104,6 +115,23 @@ class LoginPage extends BasePage {
         await expect(this.validLogin).toBeVisible();
     }
 
+    // Verify that the password field is focused after clicking 
+    // the login btn with password field empty
+    async verifyPasswordFieldIsFocused(){
+        await expect(this.passwordTextbox).toBeFocused();
+    }
+    // Verify that the password field is required
+    async verifyPasswordFieldIsRequired(){
+        const message = await this.passwordTextbox.evaluate(
+            element => element.validationMessage
+        )
+        console.log('Validation message:', message);
+        expect(message).toContain('Please fill');
+    }
+
+    async verifyHomePageUrl(){
+        await expect(this.page).toHaveURL(this.homePageUrl);
+    }
 }
 
 // Export the LoginPage class so it can be
