@@ -25,8 +25,8 @@ exports.test = base.test.extend({
         // Every test that uses this fixture will automatically:
         // 1. Open the website.
         // 2. Navigate to the Login/Signup page.
-        await loginPage.goto();
         await loginPage.openSignupLoginPage();
+        await loginPage.verifyLoginPageLoaded();
 
         // Provide the loginPage object to the test (LoginPage.spec.js).
         // The test can now use:
@@ -41,7 +41,10 @@ exports.test = base.test.extend({
     },
 
     signupPage: async ({ page }, use) => {
-        await use(new SignupPage(page));
+        const signupPage = new SignupPage(page);
+        await signupPage.openSignupLoginPage();
+
+        await use(signupPage);
     },
 
     accountInfoPage: async ({ page }, use) => {

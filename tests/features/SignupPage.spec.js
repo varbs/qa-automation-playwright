@@ -2,7 +2,6 @@ const { users, generateEmail } = require("../../test-data/users");
 const { test, expect } = require("../../fixtures/fixture");
 
 test("TC001 - Invalid sign-up", async ({ signupPage }) => {
-    await signupPage.goto();
 
     await signupPage.openSignupLoginPage();
 
@@ -14,10 +13,8 @@ test("TC001 - Invalid sign-up", async ({ signupPage }) => {
     await signupPage.verifyExistingEmail();
 });
 
-test.only("TC002 - Valid sign-up", async ({ signupPage, accountInfoPage }) => {
+test("TC002 - Valid sign-up", async ({ signupPage, accountInfoPage }) => {
     const email = generateEmail();
-
-    await signupPage.goto();
 
     await signupPage.openSignupLoginPage();
 

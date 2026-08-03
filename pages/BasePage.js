@@ -44,38 +44,16 @@ class BasePage {
     // SHARED METHODS
     // ==========================
 
-    // Opens the application's homepage.
-    //
-    // Any page object that extends BasePage can simply call:
-    //
-    // await this.goto();
-    //
-    // instead of writing page.goto(...) repeatedly.
-    async goto() {
-        await this.page.goto('https://automationexercise.com');
-    }
-
-    // Navigates from the homepage to the Login/Signup page.
-    //
-    // Since this navigation is used by multiple tests and page
-    // objects, placing it in BasePage avoids duplicate code.
+    // Navigate to the website's home page.
     async openSignupLoginPage() {
+        await this.page.goto('/'); 
         await this.signupLoginLink.click();
-
-        // Wait until the page finishes loading.
-        //
-        // networkidle means Playwright waits until
-        // there are no active network requests for a short time.
-        //
-        // This helps make sure the next test step
-        // runs only after the page has finished loading.
-        await this.page.waitForLoadState('networkidle');
 
     }
 
     async pause() {
-    await this.page.pause();
-}
+        await this.page.pause();
+    }
 
 }
 

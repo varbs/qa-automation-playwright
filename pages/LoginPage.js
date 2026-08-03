@@ -37,6 +37,9 @@ class LoginPage extends BasePage {
         // the Login section.
         this.loginForm = this.page.locator('form').filter({ hasText: 'Login' });
 
+        this.loginTitle = this.page.getByRole('heading', { name: 'Login to your account' });
+
+
         // Email textbook inside the login form
         this.emailTextbox = this.loginForm.getByPlaceholder('Email Address');
 
@@ -57,8 +60,8 @@ class LoginPage extends BasePage {
         // Log out button
         this.logoutButton = this.page.getByRole('link', { name: 'Logout ' });
 
-        // home pae url
-        this.homePageUrl = 'https://automationexercise.com/login';
+        // login page url
+        this.loginPageUrl = 'https://automationexercise.com/login';
 
     }
 
@@ -105,6 +108,11 @@ class LoginPage extends BasePage {
     // ASSERTIONS
     // ==========================
 
+    // Verify that the Login page has loaded by checking for the presence of the login title.
+    async verifyLoginPageLoaded(){
+        await expect(this.loginTitle).toBeVisible();
+    }
+
     // Verify that an invalid login error message appears.
     async verifyInvalidLogin() {
         await expect(this.errorMessage).toBeVisible();
@@ -142,7 +150,7 @@ class LoginPage extends BasePage {
         console.log('Validation message:', message);
         expect(message).toContain('Please fill');
     }
-    
+
     // Verify that the password field is focused after clicking 
     // the login btn with password field empty
     async verifyPasswordFieldIsFocused() {
@@ -150,8 +158,9 @@ class LoginPage extends BasePage {
     }
 
     // Verify that the user is redirected to the home page after logging out.
-    async verifyHomePageUrl() {
-        await expect(this.page).toHaveURL(this.homePageUrl);
+    async verifyLoginPageLoaded() {
+        await expect(this.page).toHaveURL(this.loginPageUrl);
+        await expect(this.loginForm).toBeVisible();
     }
 }
 
