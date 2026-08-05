@@ -37,7 +37,7 @@ class LoginPage extends BasePage {
         });
 
         // Form fields
-        this.emailTextbox = this.loginForm.getByPlaceholder('Email Address');
+        this.emailTextbox = this.loginForm.getByRole('textbox', { name: 'Email Address' });
         this.passwordTextbox = this.loginForm.getByPlaceholder('Password');
 
         // Form actions
