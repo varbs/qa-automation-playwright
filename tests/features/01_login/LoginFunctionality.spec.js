@@ -2,7 +2,7 @@ const { loginUsers } = require('../../../test-data/login/loginUsers');
 const { test } = require('../../../fixtures/fixture');
 
 
-test('TC-LOGIN-001 - Verify login succeeds with valid credentials', async ({ loginPage }) => {
+test('TC-LOGIN-FUNC-001 - Verify user can login successfully with valid registered credentials', async ({ loginPage }) => {
     await loginPage.login(
         loginUsers.validUser.email,
         loginUsers.validUser.password
@@ -10,7 +10,7 @@ test('TC-LOGIN-001 - Verify login succeeds with valid credentials', async ({ log
     await loginPage.verifyValidLogin();
 });
 
-test('TC-LOGIN-002 - Verify user can logout after successful login', async ({ loginPage }) => {
+test('TC-LOGIN-FUNC-002 - Verify user can logout successfully after login', async ({ loginPage }) => {
     await loginPage.login(
         loginUsers.validUser.email,
         loginUsers.validUser.password
@@ -21,8 +21,20 @@ test('TC-LOGIN-002 - Verify user can logout after successful login', async ({ lo
     await loginPage.verifyLoginPageLoaded();
 });
 
-// test('TC-LOGIN-003 - Verify login with valid credentials', async ({ loginPage }) => {
-// });
+test('TC-LOGIN-FUNC-003 - Verify login form submits successfully using the Enter key', async ({ loginPage }) => {
+    await loginPage.loginUsingEnter(
+        loginUsers.validUser.email,
+        loginUsers.validUser.password
+
+    );
+    await loginPage.verifyValidLogin();
+});
+
+
+// Verify user session persists after page reload
+// TC-LOGIN-FUNC-004 - Verify user session persists across internal page navigation
+// TC-LOGIN-FUNC-005 - Verify login form submits successfully using the Enter key
+
 
 
 

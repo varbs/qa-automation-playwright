@@ -25,6 +25,7 @@ class LoginPage extends BasePage {
 
         // URL
         this.loginPageUrl = '/login';
+        this.homePageUrl = '/';
 
         // Page
         this.loginTitle = this.page.getByRole('heading', {
@@ -59,30 +60,31 @@ class LoginPage extends BasePage {
     // ACTION METHODS
     // ==========================
 
-    // Enter user's email
     async enterEmail(email) {
         await this.emailTextbox.fill(email);
     }
 
-    // Enter user's password
     async enterPassword(password) {
         await this.passwordTextbox.fill(password);
     }
 
-    // Click  the Login button
     async clickLogin() {
         await this.loginButton.click();
     }
 
     // Complete the login process.
-    // Assumes the browser is already on the Login page.
     async login(email, password) {
         await this.enterEmail(email);
         await this.enterPassword(password);
         await this.clickLogin();
     }
 
-    // Click the logout button 
+    async loginUsingEnter(email, password){
+        await this.enterEmail(email);
+        await this.enterPassword(password);
+        await this.page.keyboard.press('Enter');
+    }
+
     async logout() {
         await this.logoutButton.click();
     }
@@ -91,17 +93,17 @@ class LoginPage extends BasePage {
     // VERIFICATION METHODS
     // ==========================
 
-    // Verify that the login page is loaded
     async verifyLoginPageLoaded() {
         await expect(this.page).toHaveURL(this.loginPageUrl);
         await expect(this.loginTitle).toBeVisible();
         await expect(this.loginForm).toBeVisible();
-
     }
 
     // Verify successful login
     async verifyValidLogin() {
+        await expect(this.page).toHaveURL('/');
         await expect(this.validLogin).toBeVisible();
+
     }
 
     // Verify invalid login
@@ -109,17 +111,15 @@ class LoginPage extends BasePage {
         await expect(this.errorMessage).toBeVisible();
     }
 
-    // Verify the email field is focused
+
     async verifyEmailFieldIsFocused() {
         await expect(this.emailTextbox).toBeFocused();
     }
 
-    // Verify the password field is focused
     async verifyPasswordFieldIsFocused() {
         await expect(this.passwordTextbox).toBeFocused();
     }
 
-    // Verify the email field is required
     async verifyEmailFieldIsRequired() {
         const message = await this.emailTextbox.evaluate(
             element => element.validationMessage
@@ -128,7 +128,6 @@ class LoginPage extends BasePage {
         expect(message).toContain('Please fill');
     }
 
-    // Verify the password field is required
     async verifyPasswordFieldIsRequired() {
         const message = await this.passwordTextbox.evaluate(
             element => element.validationMessage
@@ -149,5 +148,4 @@ class LoginPage extends BasePage {
 
 }
 
-// Export the LoginPage class so it can be imported into fixtures or test files.
 module.exports = LoginPage;

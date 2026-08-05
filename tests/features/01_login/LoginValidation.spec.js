@@ -1,20 +1,24 @@
 const { loginUsers } = require('../../../test-data/login/loginUsers');
 const { emailWhitespaceCases } = require('../../../test-data/common/emailWhitespaceCases');
 const { emailFormatCases } = require('../../../test-data/common/emailFormatCases');
+const { emailCaseValidation } = require('../../../test-data/common/emailCaseValidation');
+
+
 const { test } = require('../../../fixtures/fixture');
+
 const { VALIDATION_TYPES } = require('../../../constant/validationTypes');
 
 
 
 test.describe('Login - Invalid Credentials', () => {
-    test('TC-LOGIN-004 - Verify login fails with invalid credentials', async ({ loginPage }) => {
+    test('TC-LOGIN-VAL-001 - Verify login fails with a valid email and incorrect password', async ({ loginPage }) => {
         await loginPage.login(
             loginUsers.invalidEmail,
             loginUsers.invalidPassword
         );
         await loginPage.verifyInvalidLogin();
     });
-    test('TC-LOGIN-005 - Verify login fails with an invalid email', async ({ loginPage }) => {
+    test('TC-LOGIN-VAL-002 - Verify login fails with an unregistered email address', async ({ loginPage }) => {
         await loginPage.login(
             loginUsers.invalidEmail,
             loginUsers.validUser.password
@@ -22,7 +26,7 @@ test.describe('Login - Invalid Credentials', () => {
         await loginPage.verifyInvalidLogin();
     });
 
-    test('TC-LOGIN-006 - Verify login fails with an incorrect password', async ({ loginPage }) => {
+    test('TC-LOGIN-VAL-003 - Verify login fails with an incorrect password', async ({ loginPage }) => {
         await loginPage.login(
             loginUsers.validUser.email,
             loginUsers.invalidPassword
@@ -34,7 +38,7 @@ test.describe('Login - Invalid Credentials', () => {
 
 test.describe('Login - Required Field Validation', () => {
 
-    test('TC-LOGIN-007 - Verify login with empty email and password', async ({ loginPage }) => {
+    test('TC-LOGIN-VAL-004 - Verify login is blocked when both email and password are empty', async ({ loginPage }) => {
         await loginPage.login(
             loginUsers.emptyCredentials.email,
             loginUsers.emptyCredentials.password
@@ -43,7 +47,7 @@ test.describe('Login - Required Field Validation', () => {
         await loginPage.verifyEmailFieldIsRequired();
     });
 
-    test('TC-LOGIN-008 - Verify login with empty email', async ({ loginPage }) => {
+    test('TC-LOGIN-VAL-005 - Verify login is blocked when the email field is left empty', async ({ loginPage }) => {
         await loginPage.login(
             loginUsers.emptyCredentials.email,
             loginUsers.validUser.password
@@ -53,7 +57,7 @@ test.describe('Login - Required Field Validation', () => {
 
     });
 
-    test('TC-LOGIN-009 - Verify login with empty password', async ({ loginPage }) => {
+    test('TC-LOGIN-VAL-006 - Verify login is blocked when the password field is left empty', async ({ loginPage }) => {
         await loginPage.login(
             loginUsers.validUser.email,
             loginUsers.emptyCredentials.password
@@ -66,9 +70,9 @@ test.describe('Login - Required Field Validation', () => {
 test.describe('Login - Email Whitespace Handling', () => {
     for (const [index, { scenario, leadingSpaces, trailingSpaces }] of emailWhitespaceCases.entries()) {
 
-        const testCaseId = String(10 + index).padStart(3, '0');
+        const testCaseId = String(7 + index).padStart(3, '0');
 
-        test(`TC-LOGIN-${testCaseId} - Verify login with email ${scenario}`, async ({ loginPage }) => {
+        test(`TC-LOGIN-VAL-${testCaseId} - Verify login with email ${scenario}`, async ({ loginPage }) => {
 
             const email = ' '.repeat(leadingSpaces) +
                 loginUsers.validUser.email +
@@ -86,9 +90,9 @@ test.describe('Login - Email Whitespace Handling', () => {
 test.describe('Login - Email Format validation', () => {
     for (const [index, { scenario, email, validationType }] of emailFormatCases.entries()) {
 
-        const testCaseId = String(13 + index).padStart(3, '0');
+        const testCaseId = String(10 + index).padStart(3, '0');
 
-        test(`TC-LOGIN-${testCaseId} - Verify login rejects ${scenario}`, async ({ loginPage }) => {
+        test(`TC-LOGIN-VAL-${testCaseId} - Verify login is blocked with ${scenario}`, async ({ loginPage }) => {
             await loginPage.login(
                 email,
                 loginUsers.validUser.password
@@ -105,6 +109,21 @@ test.describe('Login - Email Format validation', () => {
                         `Unknow validation type: ${validationType}`);
             }
         })
+    };
+});
+
+test.describe('Login - Email Case validation', () => {
+    for (const [index, { scenario, email }] of emailCaseValidation.entries()) {
+
+        const testCaseId = String(16 + index).padStart(3, '0');
+
+        test(`TC-LOGIN-VAL-${testCaseId} - Verify login is blocked with email${scenario}`, async ({ loginPage }) => {
+            await loginPage.login(
+                email,
+                loginUsers.validUser.password
+            );
+            await loginPage.verifyInvalidLogin();
+        });
     };
 });
 
