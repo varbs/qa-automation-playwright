@@ -2,6 +2,8 @@ const { loginUsers } = require('../../../test-data/login/loginUsers');
 const { emailWhitespaceCases } = require('../../../test-data/common/emailWhitespaceCases');
 const { emailFormatCases } = require('../../../test-data/common/emailFormatCases');
 const { test } = require('../../../fixtures/fixture');
+const { VALIDATION_TYPES } = require('../../../constant/validationTypes');
+
 
 
 test.describe('Login - Invalid Credentials', () => {
@@ -90,11 +92,17 @@ test.describe('Login - Email Format validation', () => {
             await loginPage.login(
                 email,
                 loginUsers.validUser.password
-            )
-            if (validationType === 'browser') {
-                await loginPage.verifyBrowserEmailValidation();
-            } else if(validationType === 'application') {
-                await loginPage.verifyInvalidLogin();
+            );
+            switch (validationType) {
+                case VALIDATION_TYPES.BROWSER:
+                    await loginPage.verifyBrowserEmailValidation();
+                    break;
+                case VALIDATION_TYPES.APPLICATION:
+                    await loginPage.verifyInvalidLogin();
+                    break;
+                default:
+                    throw new Error(
+                        `Unknow validation type: ${validationType}`);
             }
         })
     };
