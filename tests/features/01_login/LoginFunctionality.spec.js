@@ -18,7 +18,7 @@ test('TC-LOGIN-FUNC-002 - Verify user can logout successfully after login', asyn
     );
     await loginPage.verifyValidLogin();
     await loginPage.logout();
-    await loginPage.verifyLoginPageLoaded();
+    await loginPage.verifyLoginSignupPageLoaded();
 });
 
 test('TC-LOGIN-FUNC-003 - Verify login form submits successfully using the Enter key', async ({ loginPage }) => {

@@ -32,10 +32,11 @@ class LoginPage extends BasePage {
             name: 'Login to your account'
         });
 
-        // Login form 
+        // Form 
         this.loginForm = this.page.locator('form').filter({
             hasText: 'Login'
         });
+        this.signupForm = this.page.locator('.signup-form');
 
         // Form fields
         this.emailTextbox = this.loginForm.getByRole('textbox', { name: 'Email Address' });
@@ -93,10 +94,11 @@ class LoginPage extends BasePage {
     // VERIFICATION METHODS
     // ==========================
 
-    async verifyLoginPageLoaded() {
+    async verifyLoginSignupPageLoaded() {
         await expect(this.page).toHaveURL(this.loginPageUrl);
         await expect(this.loginTitle).toBeVisible();
         await expect(this.loginForm).toBeVisible();
+        await expect(this.signupForm).toBeVisible();
     }
 
     // Verify successful login

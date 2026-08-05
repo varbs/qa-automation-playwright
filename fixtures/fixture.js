@@ -26,7 +26,7 @@ exports.test = base.test.extend({
         // 1. Open the website.
         // 2. Navigate to the Login/Signup page.
         await loginPage.openSignupLoginPage();
-        await loginPage.verifyLoginPageLoaded();
+        await loginPage.verifyLoginSignupPageLoaded();
 
         // Provide the loginPage object to the test (LoginPage.spec.js).
         // The test can now use:
