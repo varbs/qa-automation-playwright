@@ -3,7 +3,7 @@ const { test, expect } = require("../../fixtures/fixture");
 
 test("TC001 - Invalid sign-up", async ({ signupPage }) => {
 
-    await signupPage.openSignupLoginPage();
+    await signupPage.navigateToLoginPage();
 
     await signupPage.signup(
         users.signUp.validUser.name,
@@ -16,7 +16,7 @@ test("TC001 - Invalid sign-up", async ({ signupPage }) => {
 test("TC002 - Valid sign-up", async ({ signupPage, accountInfoPage }) => {
     const email = generateEmail();
 
-    await signupPage.openSignupLoginPage();
+    await signupPage.navigateToLoginPage();
 
     await signupPage.signup(users.signUp.validUser.name, email);
 

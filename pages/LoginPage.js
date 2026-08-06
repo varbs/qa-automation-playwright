@@ -8,19 +8,17 @@ const SUBMIT_METHOD = require('../constant/submitMethods');
 //
 // Represents the Login page of the application - contains locators and methods to the Login Page
 // This class extends BasePage, so it automatically inherits common functionality such as:
-// - openSignupLoginPage()
+// - navigateToLoginPage()
 
 class LoginPage extends BasePage {
     constructor(page) {
 
-        // Call the BasePage constructor first.
         super(page);
 
         // ==========================
         // LOCATORS
         // ==========================
 
-        // URL
         this.loginPageUrl = '/login';
         this.homePageUrl = '/';
 
@@ -40,11 +38,11 @@ class LoginPage extends BasePage {
 
         this.loginButton = this.loginForm.getByRole('button', { name: 'Login' });
 
-        this.errorMessage = this.loginForm.getByText(
+        this.invalidLoginMessage = this.loginForm.getByText(
             'Your email or password is incorrect'
         );
 
-        this.validLogin = this.page.getByText('Logged in as');
+        this.loggedInUserLabel = this.page.getByText('Logged in as');
         this.logoutButton = this.page.getByRole('link', { name: 'Logout ' });
 
     }
@@ -65,20 +63,22 @@ class LoginPage extends BasePage {
         await this.loginButton.click();
     }
 
-    // Complete the login process.
     async login(email, password, submitBy = SUBMIT_METHOD.BUTTON) {
         await this.enterEmail(email);
         await this.enterPassword(password);
 
         switch (submitBy) {
-            case SUBMIT_METHOD.BUTTON:
+            case SUBMIT_METHOD.BUTTON: {
                 await this.clickLogin();
                 break;
-            case SUBMIT_METHOD.ENTER:
+            }
+            case SUBMIT_METHOD.ENTER: {
                 await this.page.keyboard.press('Enter');
                 break;
-            default:
+            }
+            default: {
                 throw new Error(`Unsupported submit method: ${submitBy}`);
+            }
         }
     }
 
@@ -99,12 +99,12 @@ class LoginPage extends BasePage {
 
     async verifyValidLogin() {
         await expect(this.page).toHaveURL(this.homePageUrl);
-        await expect(this.validLogin).toBeVisible();
+        await expect(this.loggedInUserLabel).toBeVisible();
 
     }
 
     async verifyInvalidLogin() {
-        await expect(this.errorMessage).toBeVisible();
+        await expect(this.invalidLoginMessage).toBeVisible();
     }
 
     async verifyFocused(locator) {
@@ -118,6 +118,11 @@ class LoginPage extends BasePage {
         expect(message).toContain('Please fill');
     }
 
+    async verifyRequiredValidation(locator) {
+        await this.verifyFocused(locator);
+        await this.verifyRequiredField(locator);
+    }
+
     // Verify that the browser detects an invalid email format
     // using the built-in HTML5 email validation.
     async verifyBrowserEmailValidation(locator) {
@@ -127,7 +132,13 @@ class LoginPage extends BasePage {
         expect(isTypeMismatch).toBe(true);
     }
 
-
+    async verifyLoginForm() {
+        await expect(this.loginForm).toBeVisible();
+        await expect(this.loginTitle).toBeVisible();
+        await expect(this.emailTextbox).toBeVisible();
+        await expect(this.passwordTextbox).toBeVisible();
+        await expect(this.loginButton).toBeVisible();
+    }
 }
 
 module.exports = LoginPage;

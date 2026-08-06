@@ -25,7 +25,7 @@ exports.test = base.test.extend({
         // Every test that uses this fixture will automatically:
         // 1. Open the website.
         // 2. Navigate to the Login/Signup page.
-        await loginPage.openSignupLoginPage();
+        await loginPage.navigateToLoginPage();
         await loginPage.verifyLoginSignupPageLoaded();
 
         // Provide the loginPage object to the test (LoginPage.spec.js).
@@ -42,7 +42,7 @@ exports.test = base.test.extend({
 
     signupPage: async ({ page }, use) => {
         const signupPage = new SignupPage(page);
-        await signupPage.openSignupLoginPage();
+        await signupPage.navigateToLoginPage();
 
         await use(signupPage);
     },

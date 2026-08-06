@@ -1,41 +1,14 @@
-// BasePage is the parent class for all page objects.
-//
-// Instead of repeating common code (like opening the website or
-// clicking the Signup/Login link) in every page class, we place
-// those shared methods here.
-//
-// Other page classes (LoginPage, SignupPage, ProductsPage, etc.)
-// inherit these features by extending BasePage.
+const { expect } = require('@playwright/test');
+
 class BasePage {
-
-    // The constructor runs automatically whenever a page object
-    // is created.
-    //
-    // Example:
-    // const loginPage = new LoginPage(page);
-    //
-    // Since LoginPage extends BasePage, the BasePage constructor
-    // also runs and receives the same Playwright page object.
     constructor(page) {
-
-        // Store Playwright's page object.
-        //
-        // "page" represents the current browser tab.
-        // Saving it as this.page allows every method in this class
-        // (and every child class) to interact with the browser.
         this.page = page;
 
         // ==========================
         // SHARED LOCATORS
         // ==========================
 
-        // Locator for the "Signup / Login" navigation link.
-        //
-        // Since several page objects may need to navigate to the
-        // Login/Signup page, we define this locator only once.
-        //
-        // Child classes automatically inherit this locator.
-        this.signupLoginLink = page.getByRole('link', {
+        this.signupLoginLink = this.page.getByRole('link', {
             name: 'Signup / Login'
         });
     }
@@ -44,11 +17,39 @@ class BasePage {
     // SHARED METHODS
     // ==========================
 
-    // Navigate to the website's home page.
-    async openSignupLoginPage() {
-        await this.page.goto('/'); 
+    async navigateToLoginPage() {
+        await this.page.goto('/');
         await this.signupLoginLink.click();
+        await expect(this.page).toHaveURL('/login');
+    }
 
+    async pageReload(){
+        await this.page.reload();
+    }
+
+    async verifyFocused(locator) {
+        await expect(locator).toBeFocused();
+    }
+
+    async verifyRequiredField(locator) {
+        const message = await locator.evaluate(
+            element => element.validationMessage
+        );
+        expect(message).toContain('Please fill');
+    }
+
+    async verifyRequiredValidation(locator) {
+        await this.verifyFocused(locator);
+        await this.verifyRequiredField(locator);
+    }
+
+    // Verify that the browser detects an invalid email format
+    // using the built-in HTML5 email validation.
+    async verifyBrowserEmailValidation(locator) {
+        const isTypeMismatch = await locator.evaluate(
+            element => element.validity.typeMismatch
+        );
+        expect(isTypeMismatch).toBe(true);
     }
 
     async pause() {
@@ -57,18 +58,4 @@ class BasePage {
 
 }
 
-// Export the BasePage class.
-//
-// This allows other files to inherit its shared methods and
-// locators.
-//
-// Example:
-//
-// const BasePage = require('./BasePage');
-//
-// class LoginPage extends BasePage {
-//     constructor(page) {
-//         super(page);
-//     }
-// }
 module.exports = BasePage;
