@@ -1,5 +1,6 @@
 const { expect } = require('@playwright/test');
 const BasePage = require('./BasePage');
+const SUBMIT_METHOD = require('../constant/submitMethods');
 
 // =====================================
 // LoginPage Page Object
@@ -13,11 +14,7 @@ class LoginPage extends BasePage {
     constructor(page) {
 
         // Call the BasePage constructor first.
-        // This initializes the Playwright page object and all shared locators/methods from BasePage.
         super(page);
-
-        // Store the Playwright page object so this class can interact with the current browser tab.
-        // this.page = page; <- The BasePage constructor already has this, no need to code it again
 
         // ==========================
         // LOCATORS
@@ -27,35 +24,30 @@ class LoginPage extends BasePage {
         this.loginPageUrl = '/login';
         this.homePageUrl = '/';
 
-        // Page
+
         this.loginTitle = this.page.getByRole('heading', {
             name: 'Login to your account'
         });
 
-        // Form 
+
         this.loginForm = this.page.locator('form').filter({
             hasText: 'Login'
         });
         this.signupForm = this.page.locator('.signup-form');
 
-        // Form fields
         this.emailTextbox = this.loginForm.getByRole('textbox', { name: 'Email Address' });
         this.passwordTextbox = this.loginForm.getByPlaceholder('Password');
 
-        // Form actions
         this.loginButton = this.loginForm.getByRole('button', { name: 'Login' });
 
-        // Validation messages
         this.errorMessage = this.loginForm.getByText(
             'Your email or password is incorrect'
         );
 
-        // User state
         this.validLogin = this.page.getByText('Logged in as');
         this.logoutButton = this.page.getByRole('link', { name: 'Logout ' });
 
     }
-
 
     // ==========================
     // ACTION METHODS
@@ -74,16 +66,20 @@ class LoginPage extends BasePage {
     }
 
     // Complete the login process.
-    async login(email, password) {
+    async login(email, password, submitBy = SUBMIT_METHOD.BUTTON) {
         await this.enterEmail(email);
         await this.enterPassword(password);
-        await this.clickLogin();
-    }
 
-    async loginUsingEnter(email, password){
-        await this.enterEmail(email);
-        await this.enterPassword(password);
-        await this.page.keyboard.press('Enter');
+        switch (submitBy) {
+            case SUBMIT_METHOD.BUTTON:
+                await this.clickLogin();
+                break;
+            case SUBMIT_METHOD.ENTER:
+                await this.page.keyboard.press('Enter');
+                break;
+            default:
+                throw new Error(`Unsupported submit method: ${submitBy}`);
+        }
     }
 
     async logout() {
@@ -101,47 +97,31 @@ class LoginPage extends BasePage {
         await expect(this.signupForm).toBeVisible();
     }
 
-    // Verify successful login
     async verifyValidLogin() {
-        await expect(this.page).toHaveURL('/');
+        await expect(this.page).toHaveURL(this.homePageUrl);
         await expect(this.validLogin).toBeVisible();
 
     }
 
-    // Verify invalid login
     async verifyInvalidLogin() {
         await expect(this.errorMessage).toBeVisible();
     }
 
-
-    async verifyEmailFieldIsFocused() {
-        await expect(this.emailTextbox).toBeFocused();
+    async verifyFocused(locator) {
+        await expect(locator).toBeFocused();
     }
 
-    async verifyPasswordFieldIsFocused() {
-        await expect(this.passwordTextbox).toBeFocused();
-    }
-
-    async verifyEmailFieldIsRequired() {
-        const message = await this.emailTextbox.evaluate(
+    async verifyRequiredField(locator) {
+        const message = await locator.evaluate(
             element => element.validationMessage
-        )
-        console.log('Validation message:', message);
-        expect(message).toContain('Please fill');
-    }
-
-    async verifyPasswordFieldIsRequired() {
-        const message = await this.passwordTextbox.evaluate(
-            element => element.validationMessage
-        )
-        console.log('Validation message:', message);
+        );
         expect(message).toContain('Please fill');
     }
 
     // Verify that the browser detects an invalid email format
     // using the built-in HTML5 email validation.
-    async verifyBrowserEmailValidation() {
-        const isTypeMismatch = await this.emailTextbox.evaluate(
+    async verifyBrowserEmailValidation(locator) {
+        const isTypeMismatch = await locator.evaluate(
             element => element.validity.typeMismatch
         );
         expect(isTypeMismatch).toBe(true);

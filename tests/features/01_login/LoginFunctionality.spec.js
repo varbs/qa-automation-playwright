@@ -1,6 +1,7 @@
-const { loginUsers } = require('../../../test-data/login/loginUsers');
 const { test } = require('../../../fixtures/fixture');
 
+const { loginUsers } = require('../../../test-data/login/loginUsers');
+const SUBMIT_METHOD = require('../../../constant/submitMethods');
 
 test('TC-LOGIN-FUNC-001 - Verify user can login successfully with valid registered credentials', async ({ loginPage }) => {
     await loginPage.login(
@@ -14,7 +15,6 @@ test('TC-LOGIN-FUNC-002 - Verify user can logout successfully after login', asyn
     await loginPage.login(
         loginUsers.validUser.email,
         loginUsers.validUser.password
-
     );
     await loginPage.verifyValidLogin();
     await loginPage.logout();
@@ -22,10 +22,10 @@ test('TC-LOGIN-FUNC-002 - Verify user can logout successfully after login', asyn
 });
 
 test('TC-LOGIN-FUNC-003 - Verify login form submits successfully using the Enter key', async ({ loginPage }) => {
-    await loginPage.loginUsingEnter(
+    await loginPage.login(
         loginUsers.validUser.email,
-        loginUsers.validUser.password
-
+        loginUsers.validUser.password,
+        SUBMIT_METHOD.ENTER
     );
     await loginPage.verifyValidLogin();
 });
