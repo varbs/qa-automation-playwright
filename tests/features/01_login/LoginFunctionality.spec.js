@@ -1,9 +1,10 @@
 const { test } = require('../../../fixtures/fixture');
 
+const SUBMIT_METHOD = require('../../../constant/submitMethods');
+
 const { loginUsers } = require('../../../test-data/login/loginUsers');
 const { validUser } = loginUsers;
 
-const SUBMIT_METHOD = require('../../../constant/submitMethods');
 
 test.describe('Login Functionality', () => {
     test('TC-LOGIN-FUNC-001 - Verify user can login successfully with valid registered credentials', async ({ loginPage }) => {

@@ -1,13 +1,13 @@
 const { test } = require('../../../fixtures/fixture');
 
+const { VALIDATION_TYPES } = require('../../../constant/validationTypes');
+
 const { loginUsers } = require('../../../test-data/login/loginUsers');
 const { validUser, invalidUser, emptyCredentials } = loginUsers;
 
 const { emailWhitespaceCases } = require('../../../test-data/common/emailWhitespaceCases');
 const { emailFormatCases } = require('../../../test-data/common/emailFormatCases');
 const { emailCaseValidation } = require('../../../test-data/common/emailCaseValidation');
-
-const { VALIDATION_TYPES } = require('../../../constant/validationTypes');
 
 const { getTestCaseId } = require('../../../utils/testCaseHelper');
 
