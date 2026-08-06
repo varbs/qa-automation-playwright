@@ -51,7 +51,6 @@ test.describe('Login Functionality', () => {
             validUser.password
         );
         await loginPage.verifyValidLogin();
-        await loginPage.pause();
         await loginPage.pageReload();
         await loginPage.verifyValidLogin();
     });
