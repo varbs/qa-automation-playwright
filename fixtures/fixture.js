@@ -4,6 +4,8 @@ const AccountInformationPage = require('../pages/AccountInformationPage');
 const LoginPage = require('../pages/LoginPage');
 const SignupPage = require('../pages/SignupPage');
 
+const { generateSignupUser } = require('../utils/generateUser');
+
 exports.test = base.test.extend({
 
     loginPage: async ({ page }, use) => {
@@ -21,6 +23,11 @@ exports.test = base.test.extend({
         await signupPage.navigateToLoginPage();
 
         await use(signupPage);
+    },
+
+    signupUser: async ({ page }, use) => {
+        const user = new generateSignupUser(page);
+        await use(user);
     },
 
     accountInfoPage: async ({ page }, use) => {
