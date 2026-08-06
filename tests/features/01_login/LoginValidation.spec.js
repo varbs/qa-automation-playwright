@@ -7,8 +7,7 @@ const { emailCaseValidation } = require('../../../test-data/common/emailCaseVali
 
 const { VALIDATION_TYPES } = require('../../../constant/validationTypes');
 
-const getTestCaseId = (start, index) =>
-    String(start + index).padStart(3, '0');
+const { getTestCaseId } = require('../../../utils/testCaseHelper');
 
 test.describe('Login - Invalid Credentials', () => {
     test('TC-LOGIN-VAL-001 - Verify login fails with an invalid email and incorrect password', async ({ loginPage }) => {
