@@ -1,7 +1,7 @@
 const loginUsers = {
     validUser: {
-        email: 'valid_testuser@gmail.com',
-        password: 'Password123'
+        email: process.env.LOGIN_EMAIL,
+        password: process.env.LOGIN_PASSWORD,
     },
 
     invalidUser: {
