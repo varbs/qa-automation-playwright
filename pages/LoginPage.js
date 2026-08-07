@@ -102,7 +102,6 @@ class LoginPage extends BasePage {
 
     async verifyValidLogin() {
         // Allow the page to settle and use a tolerant host/path match for CI environments
-        await this.page.waitForLoadState('networkidle');
         await expect(this.page).toHaveURL(/automationexercise\.com\/?$/);
         await expect(this.loggedInUserLabel).toBeVisible();
 
