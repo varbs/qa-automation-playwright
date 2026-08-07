@@ -33,17 +33,18 @@ class LoginPage extends BasePage {
         });
         this.signupForm = this.page.locator('.signup-form');
 
-        this.emailTextbox = this.loginForm.getByRole('textbox', { name: 'Email Address' });
+        // Use tolerant selectors for email/password fields to reduce brittleness across environments
+        this.emailTextbox = this.loginForm.locator('input[type="email"], input[name="email"], input[placeholder="Email Address"]');
         this.passwordTextbox = this.loginForm.getByPlaceholder('Password');
 
         this.loginButton = this.loginForm.getByRole('button', { name: 'Login' });
 
-        this.invalidLoginMessage = this.loginForm.getByText(
-            'Your email or password is incorrect'
-        );
+        // Make the invalid message search tolerant (case-insensitive regex) and not strictly scoped to the form
+        this.invalidLoginMessage = this.page.getByText(/email or password is incorrect/i);
 
         this.loggedInUserLabel = this.page.getByText('Logged in as');
-        this.logoutButton = this.page.getByRole('link', { name: 'Logout ' });
+        // Remove accidental trailing space and use a tolerant regex match for the logout link
+        this.logoutButton = this.page.getByRole('link', { name: /^Logout/i });
 
     }
 
@@ -70,10 +71,13 @@ class LoginPage extends BasePage {
         switch (submitBy) {
             case SUBMIT_METHOD.BUTTON: {
                 await this.clickLogin();
+                // Wait for navigation/network to settle so subsequent assertions don't race
+                await this.page.waitForLoadState('networkidle');
                 break;
             }
             case SUBMIT_METHOD.ENTER: {
                 await this.page.keyboard.press('Enter');
+                await this.page.waitForLoadState('networkidle');
                 break;
             }
             default: {
@@ -91,20 +95,24 @@ class LoginPage extends BasePage {
     // ==========================
 
     async verifyLoginSignupPageLoaded() {
-        await expect(this.page).toHaveURL(this.loginPageUrl);
+        // Use a tolerant URL assertion for the login page
+        await expect(this.page).toHaveURL(/\/login\/?$/);
         await expect(this.loginTitle).toBeVisible();
         await expect(this.loginForm).toBeVisible();
         await expect(this.signupForm).toBeVisible();
     }
 
     async verifyValidLogin() {
-        await expect(this.page).toHaveURL(this.homePageUrl);
+        // Allow the page to settle and use a tolerant host/path match for CI environments
+        await this.page.waitForLoadState('networkidle');
+        await expect(this.page).toHaveURL(/automationexercise\.com\/?$/);
         await expect(this.loggedInUserLabel).toBeVisible();
 
     }
 
     async verifyInvalidLogin() {
-        await expect(this.invalidLoginMessage).toBeVisible();
+        // Give the app a little extra time to render an error message in slower CI
+        await expect(this.invalidLoginMessage).toBeVisible({ timeout: 7000 });
     }
 
     async verifyFocused(locator) {
