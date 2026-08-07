@@ -70,8 +70,6 @@ class LoginPage extends BasePage {
         switch (submitBy) {
             case SUBMIT_METHOD.BUTTON: {
                 await this.clickLogin();
-                // Wait for navigation/network to settle so subsequent assertions don't race
-                await this.page.waitForLoadState('networkidle');
                 break;
             }
             case SUBMIT_METHOD.ENTER: {
