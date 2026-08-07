@@ -25,6 +25,14 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      - name: Debug check secrets are set (temporary)
+        run: |
+          echo "LOGIN_EMAIL length: ${#LOGIN_EMAIL}"
+          echo "LOGIN_PASSWORD length: ${#LOGIN_PASSWORD}"
+        env:
+          LOGIN_EMAIL: ${{ secrets.LOGIN_EMAIL }}
+          LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+
       - name: Run Playwright tests
         run: npx playwright test
         env:
