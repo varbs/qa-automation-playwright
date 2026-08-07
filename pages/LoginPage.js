@@ -44,8 +44,7 @@ class LoginPage extends BasePage {
 
         this.loggedInUserLabel = this.page.getByText('Logged in as');
         // Remove accidental trailing space and use a tolerant regex match for the logout link
-        this.logoutButton = this.page.getByRole('link', { name: /^Logout/i });
-
+        this.logoutButton = this.page.getByRole('link', { name: /Logout/i });
     }
 
     // ==========================
