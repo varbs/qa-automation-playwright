@@ -76,7 +76,6 @@ class LoginPage extends BasePage {
             }
             case SUBMIT_METHOD.ENTER: {
                 await this.page.keyboard.press('Enter');
-                await this.page.waitForLoadState('networkidle');
                 break;
             }
             default: {
