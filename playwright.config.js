@@ -17,6 +17,8 @@ module.exports = defineConfig({
     browserName: 'chromium',
     headless: true, // Required for GitHub Actions
     baseURL: 'https://automationexercise.com',
+    screenshot: 'only-on-failure',
+    trace: 'retain-on-failure',
 
   },
 });
