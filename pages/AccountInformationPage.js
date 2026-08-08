@@ -100,7 +100,7 @@ class AccountInfo extends BasePage {
     // Fill the user's address
     async fillAddress(address, address2) {
         await this.address.fill(address),
-            await this.address2.fill(address2);
+        await this.address2.fill(address2);
     }
     // Verify the country's dropdown has options
     async verifyCountryOptions() {
@@ -154,6 +154,16 @@ class AccountInfo extends BasePage {
     async enterMobile(number) {
         await this.mobileNum.fill(number);
     }
+
+    async enterAddressDetails(address) {
+        await this.enterCompany(address.company);
+        await this.fillAddress(address.address1, address.address2);
+        await this.enterState(address.state);
+        await this.enterCity(address.city);
+        await this.enterZipcode(address.zipCode);
+        await this.enterMobile(address.mobile);
+    }
+
 
     // Create the account
     async createClick() {

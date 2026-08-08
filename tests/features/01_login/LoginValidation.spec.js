@@ -3,26 +3,29 @@ const { test } = require('../../../fixtures/fixture');
 const { VALIDATION_TYPES } = require('../../../constant/validationTypes');
 
 const { loginUsers } = require('../../../test-data/login/loginUsers');
-const { validUser, invalidUser, emptyCredentials } = loginUsers;
+const { validUser, incorrectPassword, emptyCredentials } = loginUsers;
 
 const { emailWhitespaceCases } = require('../../../test-data/common/emailWhitespaceCases');
 const { emailFormatCases } = require('../../../test-data/common/emailFormatCases');
 const { emailCaseValidation } = require('../../../test-data/common/emailCaseValidation');
 
 const { getTestCaseId } = require('../../../utils/testCaseHelper');
+const { generateNonExistingUser } = require('../../../utils/generateUser');
 
 test.describe('Login - Invalid Credentials', () => {
-    test('TC-LOGIN-VAL-001 - Verify login fails with an invalid email and incorrect password', async ({ loginPage }) => {
+    test('TC-LOGIN-VAL-001 - Verify login fails with non-existing account credentials', async ({ loginPage }) => {
+        const { email, password }  = generateNonExistingUser();
         await loginPage.login(
-            invalidUser.email,
-            invalidUser.password
+            email, 
+            password
         );
         await loginPage.verifyInvalidLogin();
     });
 
-    test('TC-LOGIN-VAL-002 - Verify login fails with an unregistered email address', async ({ loginPage }) => {
+    test('TC-LOGIN-VAL-002 - Verify login fails with an unregistered email and valid password', async ({ loginPage }) => {
+        const { email } = generateNonExistingUser();
         await loginPage.login(
-            invalidUser.email,
+            email,
             validUser.password
         );
         await loginPage.verifyInvalidLogin();
@@ -31,7 +34,7 @@ test.describe('Login - Invalid Credentials', () => {
     test('TC-LOGIN-VAL-003 - Verify login fails with an incorrect password', async ({ loginPage }) => {
         await loginPage.login(
             validUser.email,
-            invalidUser.password
+            incorrectPassword.password
         );
         await loginPage.verifyInvalidLogin();
     });
@@ -94,6 +97,7 @@ test.describe('Login - Email Format Validation', () => {
                 email,
                 validUser.password
             );
+
             switch (validationType) {
                 case VALIDATION_TYPES.BROWSER: {
                     await loginPage.verifyBrowserEmailValidation(loginPage.emailTextbox);

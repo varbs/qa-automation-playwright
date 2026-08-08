@@ -4,9 +4,9 @@ const loginUsers = {
         password: process.env.LOGIN_PASSWORD,
     },
 
-    invalidUser: {
-        email: 'invalid_user@gmail.com',
-        password: 'InvalidPassword123'
+    incorrectPassword: {
+        password: 'IncorrectPassword123',
+
     },
 
     emptyCredentials: {

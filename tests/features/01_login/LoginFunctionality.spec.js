@@ -5,7 +5,6 @@ const SUBMIT_METHOD = require('../../../constant/submitMethods');
 const { loginUsers } = require('../../../test-data/login/loginUsers');
 const { validUser } = loginUsers;
 
-
 test.describe('Login Functionality', () => {
     test('TC-LOGIN-FUNC-001 - Verify user can login successfully with valid registered credentials', async ({ loginPage }) => {
         await loginPage.login(
