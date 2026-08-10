@@ -1,6 +1,6 @@
 const base = require('@playwright/test');
 
-const AccountInformationPage = require('../pages/AccountInformationPage');
+const AccountInfoPage = require('../pages/AccountInformationPage');
 const LoginPage = require('../pages/LoginPage');
 const SignupPage = require('../pages/SignupPage');
 
@@ -23,8 +23,7 @@ exports.test = base.test.extend({
     },
 
     accountInfoPage: async ({ page }, use) => {
-        const accountInfoPage = new AccountInformationPage(page);
-
+        const accountInfoPage = new AccountInfoPage(page);
         await use(accountInfoPage);
     }
 });

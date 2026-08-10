@@ -5,6 +5,8 @@ const { SIGNUP_TITLE } = require('../../../constant/signupTitle');
 const { signupBirthDates }  = require('../../../test-data/signup/signupBirthDates');
 const { valid } = signupBirthDates;
 
+const { signupCountries } = require('../../../test-data/signup/signupCountries');
+
 const { generateSignupUser } = require('../../../utils/generateUser');
 
 
@@ -25,7 +27,12 @@ test.describe('Signup Functionality', () => {
         await accountInfoPage.enterFirstname(user.firstName);
         await accountInfoPage.enterLastname(user.lastName);
 
-        await accountInfoPage.enterAddressDetails(user);
+        await accountInfoPage.enterAccountDetails({...user, country: signupCountries.canada});
+        await accountInfoPage.verifySelectedCountry(signupCountries.canada);
+
+        await accountInfoPage.createAccount();
+        await accountInfoPage.verifyAccountCompletion();
+        
         await accountInfoPage.pause();
     });
 });

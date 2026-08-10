@@ -1,7 +1,7 @@
 const { expect } = require("@playwright/test");
 const BasePage = require("./BasePage");
 
-class AccountInfo extends BasePage {
+class AccountInfoPage extends BasePage {
     constructor(page) {
         super(page);
 
@@ -37,7 +37,7 @@ class AccountInfo extends BasePage {
         this.zipCode = this.page.locator("#zipcode");
         this.mobileNum = this.page.getByLabel("Mobile Number *");
 
-        this.createAccountBbtn = this.page.getByRole("button", {
+        this.createAccountButton = this.page.getByRole("button", {
             name: "Create Account",
         });
 
@@ -52,6 +52,8 @@ class AccountInfo extends BasePage {
             await this.mrtitle.check();
         } else if (title === "Mrs.") {
             await this.mstitle.check();
+        } else {
+            throw new Error(`Unsupported signup title: ${title}`);
         }
     }
 
@@ -62,9 +64,9 @@ class AccountInfo extends BasePage {
 
     // Select the user's birthdate
     async enterBirthDate(day, month, year) {
-        await this.day.selectOption(day),
-            await this.month.selectOption(month),
-            await this.year.selectOption(year);
+        await this.day.selectOption(day);
+        await this.month.selectOption(month);
+        await this.year.selectOption(year);
     }
 
     async setNewsletterSubscription(subscribe) {
@@ -86,12 +88,12 @@ class AccountInfo extends BasePage {
 
     //---- Address Info section -----
     // Enter the user's firstname
-    async enterFirstname(fname) {
-        await this.firstName.fill(fname);
+    async enterFirstname(firstName) {
+        await this.firstName.fill(firstName);
     }
     // Enter the user's lastname
-    async enterLastname(lname) {
-        await this.lastName.fill(lname);
+    async enterLastname(lastName) {
+        await this.lastName.fill(lastName);
     }
     // Enter the user's company
     async enterCompany(company) {
@@ -99,45 +101,19 @@ class AccountInfo extends BasePage {
     }
     // Fill the user's address
     async fillAddress(address, address2) {
-        await this.address.fill(address),
+        await this.address.fill(address);
         await this.address2.fill(address2);
     }
-    // Verify the country's dropdown has options
-    async verifyCountryOptions() {
-        // Get the text of all options in the Country dropdown
-        const options = await this.country.locator('option').allTextContents();
 
-        // Print the total number of country for debugging
-        console.log(`Total countries: ${options.length}`);
-
-        // Print all country names for debugging
-        console.log('Countries:', options);
-
-        // Verify the dropdown contains options
-        expect(options.length).toBeGreaterThan(1);
-
-        // Verify the dropdown contains specific countries
-        expect(options).toContain('India');
-        expect(options).toContain('Canada');
-        expect(options).toContain('Singapore');
-    }
     // Select the user's country
     async selectCountry(country) {
         await this.country.selectOption(country);
     }
     // Verify the user's selected country is correct
-    async verifySelectedCountry(country) {
-        // Get the currently selected value
-        const selectedCountry = await this.country.inputValue();
-
-        // Print the selected country for debuggin
-        console.log('Selected country: ', selectedCountry);
-
-        // Verify the selected country matches the expected value
-        expect(selectedCountry).toBe(country);
-
-        //await expect(this.country).toHaveValue(country);
+    async verifySelectedCountry(expectedCountry) {
+        await expect(this.country).toHaveValue(expectedCountry);
     }
+
     // Enter the user's state
     async enterState(state) {
         await this.state.fill(state);
@@ -155,22 +131,23 @@ class AccountInfo extends BasePage {
         await this.mobileNum.fill(number);
     }
 
-    async enterAddressDetails(address) {
-        await this.enterCompany(address.company);
-        await this.fillAddress(address.address1, address.address2);
-        await this.enterState(address.state);
-        await this.enterCity(address.city);
-        await this.enterZipcode(address.zipCode);
-        await this.enterMobile(address.mobile);
+    async enterAccountDetails(details) {
+        await this.enterCompany(details.company);
+        await this.fillAddress(details.address1, details.address2);
+        await this.selectCountry(details.country);
+        await this.enterState(details.state);
+        await this.enterCity(details.city);
+        await this.enterZipcode(details.zipCode);
+        await this.enterMobile(details.mobile);
     }
 
-
+    //---- Account actions -----
     // Create the account
-    async createClick() {
-        await this.createAccountBbtn.click();
+    async createAccount() {
+        await this.createAccountButton.click();
     }
 
-    //assertions
+    //---- Assertions -----
     async verifyName(name) {
         await expect(this.name).toHaveValue(name);
     }
@@ -182,4 +159,4 @@ class AccountInfo extends BasePage {
     }
 }
 
-module.exports = AccountInfo;
+module.exports = AccountInfoPage;
