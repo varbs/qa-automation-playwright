@@ -1,9 +1,6 @@
 const { test } = require("../../../fixtures/fixture");
 
-const { SIGNUP_TITLE } = require('../../../constant/signupTitle');
-
-const { signupBirthDates }  = require('../../../test-data/signup/signupBirthDates');
-const { valid } = signupBirthDates;
+const { completeSignup } = require('../../../flows/accountFlows');
 
 const { signupCountries } = require('../../../test-data/signup/signupCountries');
 
@@ -13,26 +10,48 @@ const { generateSignupUser } = require('../../../utils/generateUser');
 test.describe('Signup Functionality', () => {
     test('TC-SIGNUP-FUNC-001 - Verify user can sign up with valid credentials', async ({ signupPage, accountInfoPage }) => {
         const user = generateSignupUser();
+        await completeSignup(signupPage, accountInfoPage, user);
+    });
 
-        await signupPage.signup(user.name, user.email);
-        await signupPage.verifySignupPage();
-        
-        await accountInfoPage.selectTitle(SIGNUP_TITLE.MR);
-        await accountInfoPage.enterPassword(user.password);
-        await accountInfoPage.enterBirthDate(
-            valid.day,
-            valid.month,
-            valid.year
+    test('TC-SIGNUP-FUNC-002 - Verify newly created user is logged in automatically', async ({ signupPage, accountInfoPage, homePage }) => {
+        const user = generateSignupUser();
+        // Use the default country
+        await completeSignup(signupPage, accountInfoPage, user);
+
+        await homePage.continueToHomePage();
+        await homePage.verifyUserisLoggedIn();
+    });
+
+    test('TC-SIGNUP-FUNC-003 - Verify user can delete newly created account', async ({ signupPage, accountInfoPage, homePage }) => {
+        const user = generateSignupUser();
+        // Override the default country
+        await completeSignup(signupPage, accountInfoPage, user, signupCountries.australia);
+
+        await homePage.continueToHomePage();
+        await homePage.verifyUserisLoggedIn();
+
+        await homePage.deleteAccountAndVerifyDeletion();
+    });
+
+    test('TC-SIGNUP-FUNC-004 - Verify deleted user cannot log in', async ({ signupPage, accountInfoPage, loginPage, homePage }) => {
+        const user = generateSignupUser();
+        await completeSignup(signupPage, accountInfoPage, user);
+
+        await homePage.continueToHomePage();
+        await homePage.verifyUserisLoggedIn();
+
+        await homePage.deleteAccountAndVerifyDeletion();
+
+        await homePage.continueToHomePage();
+        await homePage.verifyUserIsLoggedOut();
+
+        await loginPage.navigateToLoginPage();
+
+        await loginPage.login(
+            user.email,
+            user.password
         );
-        await accountInfoPage.enterFirstname(user.firstName);
-        await accountInfoPage.enterLastname(user.lastName);
 
-        await accountInfoPage.enterAccountDetails({...user, country: signupCountries.canada});
-        await accountInfoPage.verifySelectedCountry(signupCountries.canada);
-
-        await accountInfoPage.createAccount();
-        await accountInfoPage.verifyAccountCompletion();
-        
-        await accountInfoPage.pause();
+        await loginPage.verifyInvalidLogin();
     });
 });

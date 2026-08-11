@@ -5,9 +5,9 @@ class AccountInfoPage extends BasePage {
     constructor(page) {
         super(page);
 
-        // User Info
-        this.mrtitle = this.page.getByRole("radio", { name: "Mr." });
-        this.mstitle = this.page.getByRole("radio", { name: "Mrs." });
+        //--- User Information ---//
+        this.mrTitle = this.page.getByRole("radio", { name: "Mr." });
+        this.mrsTitle = this.page.getByRole("radio", { name: "Mrs." });
         this.name = this.page.locator("#name");
         this.email = this.page.getByLabel("Email");
         this.password = this.page.getByLabel("Password");
@@ -19,11 +19,11 @@ class AccountInfoPage extends BasePage {
         this.newsletterCheckbox = this.page.getByRole("checkbox", {
             name: "Sign up for our newsletter!",
         });
-        this.specialoffersCheckbox = this.page.getByRole("checkbox", {
+        this.specialOffersCheckbox = this.page.getByRole("checkbox", {
             name: "Receive special offers from our partners!",
         });
 
-        // Address info
+        //--- Address Information ---//
         this.firstName = this.page.getByLabel("First name *");
         this.lastName = this.page.getByLabel("Last name *");
 
@@ -32,37 +32,34 @@ class AccountInfoPage extends BasePage {
         this.address2 = this.page.getByLabel("Address 2");
         this.country = this.page.getByLabel("Country *");
         this.state = this.page.getByLabel("State *");
-        // this.city = this.page.getByRole('textbox', { name: 'City * Zipcode *' });
         this.city = this.page.locator("#city");
         this.zipCode = this.page.locator("#zipcode");
-        this.mobileNum = this.page.getByLabel("Mobile Number *");
+        this.mobileNumber = this.page.getByLabel("Mobile Number *");
 
+        //--- Account actions ---//
         this.createAccountButton = this.page.getByRole("button", {
             name: "Create Account",
         });
 
-        // account completion
-        this.successMessage = this.page.getByText('Account Created!')
+        //---Account created ---//
+        this.accountCreatedMessage = this.page.getByText('Account Created!')
     }
 
     //----- User's Info section -----
-    // Select the user's title (Mr. or Mrs.)
     async selectTitle(title) {
         if (title === "Mr.") {
-            await this.mrtitle.check();
+            await this.mrTitle.check();
         } else if (title === "Mrs.") {
-            await this.mstitle.check();
+            await this.mrsTitle.check();
         } else {
             throw new Error(`Unsupported signup title: ${title}`);
         }
     }
 
-    // Enter the user's password.
     async enterPassword(password) {
         await this.password.fill(password);
     }
 
-    // Select the user's birthdate
     async enterBirthDate(day, month, year) {
         await this.day.selectOption(day);
         await this.month.selectOption(month);
@@ -79,83 +76,81 @@ class AccountInfoPage extends BasePage {
 
     async setSpecialOffersSubscription(subscribe) {
         if (subscribe) {
-            await this.specialoffersCheckbox.check();
+            await this.specialOffersCheckbox.check();
         } else {
-            await this.specialoffersCheckbox.uncheck();
+            await this.specialOffersCheckbox.uncheck();
         }
     }
 
-
-    //---- Address Info section -----
-    // Enter the user's firstname
-    async enterFirstname(firstName) {
+    //---- Address Information section -----//
+    async enterFirstName(firstName) {
         await this.firstName.fill(firstName);
     }
-    // Enter the user's lastname
-    async enterLastname(lastName) {
+
+    async enterLastName(lastName) {
         await this.lastName.fill(lastName);
     }
-    // Enter the user's company
+
     async enterCompany(company) {
         await this.company.fill(company);
     }
-    // Fill the user's address
+
     async fillAddress(address, address2) {
         await this.address.fill(address);
         await this.address2.fill(address2);
     }
 
-    // Select the user's country
     async selectCountry(country) {
         await this.country.selectOption(country);
     }
-    // Verify the user's selected country is correct
-    async verifySelectedCountry(expectedCountry) {
-        await expect(this.country).toHaveValue(expectedCountry);
-    }
 
-    // Enter the user's state
     async enterState(state) {
         await this.state.fill(state);
     }
-    // Enter the user's city
+
     async enterCity(city) {
         await this.city.fill(city);
     }
-    // Enter the user's zipcode
-    async enterZipcode(zipcode) {
-        await this.zipCode.fill(zipcode);
+
+    async enterZipCode(zipCode) {
+        await this.zipCode.fill(zipCode);
     }
-    // Enter the user's mobile number
+
     async enterMobile(number) {
-        await this.mobileNum.fill(number);
+        await this.mobileNumber.fill(number);
     }
 
-    async enterAccountDetails(details) {
-        await this.enterCompany(details.company);
-        await this.fillAddress(details.address1, details.address2);
-        await this.selectCountry(details.country);
-        await this.enterState(details.state);
-        await this.enterCity(details.city);
-        await this.enterZipcode(details.zipCode);
-        await this.enterMobile(details.mobile);
+    async enterAddressDetails(address) {
+        await this.enterCompany(address.company);
+        await this.fillAddress(address.address1, address.address2);
+        await this.selectCountry(address.country);
+        await this.enterState(address.state);
+        await this.enterCity(address.city);
+        await this.enterZipCode(address.zipCode);
+        await this.enterMobile(address.mobile);
     }
 
-    //---- Account actions -----
-    // Create the account
+    //---- Account actions -----//
     async createAccount() {
         await this.createAccountButton.click();
     }
 
-    //---- Assertions -----
+    //---- Assertions -----//
+
     async verifyName(name) {
         await expect(this.name).toHaveValue(name);
     }
+
     async verifyEmail(email) {
         await expect(this.email).toHaveValue(email);
     }
+
+    async verifySelectedCountry(expectedCountry) {
+        await expect(this.country).toHaveValue(expectedCountry);
+    }
+
     async verifyAccountCompletion() {
-        await expect(this.successMessage).toBeVisible();
+        await expect(this.accountCreatedMessage).toBeVisible();
     }
 }
 
