@@ -1,4 +1,4 @@
-const { test, expect } = require('../../../fixtures/fixture');
+const { test, expect } = require('../../../../fixtures/fixture');
 
 test.describe('Login UI', () => {
     test('TC-LOGIN-UI-001 - Verify the Login page title is displayed', async ({ loginPage }) => {

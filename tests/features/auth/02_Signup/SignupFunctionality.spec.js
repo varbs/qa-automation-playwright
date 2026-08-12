@@ -1,10 +1,10 @@
-const { test } = require("../../../fixtures/fixture");
+const { test } = require("../../../../fixtures/fixture");
 
-const { completeSignup } = require('../../../flows/auth/accountFlows');
+const { completeSignup } = require('../../../../flows/auth/accountFlows');
 
-const { signupCountries } = require('../../../test-data/auth/signup/signupCountries');
+const { signupCountries } = require('../../../../test-data/auth/signup/signupCountries');
 
-const { generateSignupUser } = require('../../../utils/generateUser');
+const { generateSignupUser } = require('../../../../utils/generateUser');
 
 
 test.describe('Signup Functionality', () => {

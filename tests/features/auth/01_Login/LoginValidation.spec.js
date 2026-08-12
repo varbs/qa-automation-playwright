@@ -1,16 +1,16 @@
-const { test } = require('../../../fixtures/fixture');
+const { test } = require('../../../../fixtures/fixture');
 
-const { VALIDATION_TYPES } = require('../../../constant/validationTypes');
+const { VALIDATION_TYPES } = require('../../../../constant/validationTypes');
 
-const { loginUsers } = require('../../../test-data/auth/login/loginUsers');
+const { loginUsers } = require('../../../../test-data/auth/login/loginUsers');
 const { validUser, incorrectPassword, emptyCredentials } = loginUsers;
 
-const { emailWhitespaceCases } = require('../../../test-data/common/emailWhitespaceCases');
-const { emailFormatCases } = require('../../../test-data/common/emailFormatCases');
-const { emailCaseValidation } = require('../../../test-data/common/emailCaseValidation');
+const { emailWhitespaceCases } = require('../../../../test-data/common/emailWhitespaceCases');
+const { emailFormatCases } = require('../../../../test-data/common/emailFormatCases');
+const { emailCaseValidation } = require('../../../../test-data/common/emailCaseValidation');
 
-const { getTestCaseId } = require('../../../utils/testCaseHelper');
-const { generateNonExistingUser } = require('../../../utils/generateUser');
+const { getTestCaseId } = require('../../../../utils/testCaseHelper');
+const { generateNonExistingUser } = require('../../../../utils/generateUser');
 
 test.describe('Login - Invalid Credentials', () => {
     test('TC-LOGIN-VAL-001 - Verify login fails with non-existing account credentials', async ({ loginPage }) => {

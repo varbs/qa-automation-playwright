@@ -1,8 +1,8 @@
-const { test } = require('../../../fixtures/fixture');
+const { test } = require('../../../../fixtures/fixture');
 
-const SUBMIT_METHOD = require('../../../constant/submitMethods');
+const SUBMIT_METHOD = require('../../../../constant/submitMethods');
 
-const { loginUsers } = require('../../../test-data/auth/login/loginUsers');
+const { loginUsers } = require('../../../../test-data/auth/login/loginUsers');
 const { validUser } = loginUsers;
 
 test.describe('Login Functionality', () => {

@@ -1,10 +1,10 @@
-const { test } = require("../../../fixtures/fixture");
+const { test } = require("../../../../fixtures/fixture");
 
-const { emailWhitespaceCases } = require("../../../test-data/common/emailWhitespaceCases");
-const { nameWhitespaceCases } = require('../../../test-data/common/nameWhitespaceCases');
+const { emailWhitespaceCases } = require("../../../../test-data/common/emailWhitespaceCases");
+const { nameWhitespaceCases } = require('../../../../test-data/common/nameWhitespaceCases');
 
-const { generateSignupUser } = require('../../../utils/generateUser');
-const { getTestCaseId } = require('../../../utils/testCaseHelper');
+const { generateSignupUser } = require('../../../../utils/generateUser');
+const { getTestCaseId } = require('../../../../utils/testCaseHelper');
 
 
 

@@ -9,7 +9,7 @@ async function completeSignup(
     accountInfoPage,
     user,
     country = signupCountries.canada,
-    title = SIGNUP_TITLE.MRS,
+    title = SIGNUP_TITLE.MR,
     birthDate = valid
 ) {
     await signupPage.signup(user.name, user.email)
