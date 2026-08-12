@@ -4,7 +4,7 @@ const { emailWhitespaceCases } = require("../../../test-data/common/emailWhitesp
 const { nameWhitespaceCases } = require('../../../test-data/common/nameWhitespaceCases');
 
 const { generateSignupUser } = require('../../../utils/generateUser');
-const { getTestCaseId } = require('../../../utils/testCasehelper');
+const { getTestCaseId } = require('../../../utils/testCaseHelper');
 
 
 
