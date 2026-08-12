@@ -7,6 +7,7 @@ const { generateSignupUser } = require('../../../utils/generateUser');
 const { getTestCaseId } = require('../../../utils/testCasehelper');
 
 
+
 test.describe('Signup - Whitespaces Handling', () => {
     test.describe('Name', () => {
         for (const [index, { scenario, leadingSpaces, trailingSpaces }] of nameWhitespaceCases.entries()) {
