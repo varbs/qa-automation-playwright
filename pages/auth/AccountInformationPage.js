@@ -1,9 +1,13 @@
 const { expect } = require("@playwright/test");
-const BasePage = require("./BasePage");
+const BasePage = require("../BasePage");
 
 class AccountInfoPage extends BasePage {
     constructor(page) {
         super(page);
+
+        this.accountInfoHeading = page.getByRole("heading", {
+            name: "Enter Account Information",
+        });
 
         //--- User Information ---//
         this.mrTitle = this.page.getByRole("radio", { name: "Mr." });
@@ -60,7 +64,9 @@ class AccountInfoPage extends BasePage {
         await this.password.fill(password);
     }
 
-    async enterBirthDate(day, month, year) {
+    // Accepts a single birthDate object and destructures it into day, month, and year
+    // This matches how birthDate is passed from completeSignup as { day, month, year }
+    async enterBirthDate({ day, month, year }) {
         await this.day.selectOption(day);
         await this.month.selectOption(month);
         await this.year.selectOption(year);
@@ -136,6 +142,10 @@ class AccountInfoPage extends BasePage {
     }
 
     //---- Assertions -----//
+
+    async verifyAccountInfoPageLoaded() {
+        await expect(this.accountInfoHeading).toBeVisible();
+    }
 
     async verifyName(name) {
         await expect(this.name).toHaveValue(name);

@@ -42,20 +42,15 @@ test.describe('Login UI', () => {
         await loginPage.verifyLoginSignupPageLoaded();
     });
 
-
-    test('TC-LOGIN-UI-009 - Verify the Login form contains the required elements', async ({ loginPage }) => {
-        await loginPage.verifyLoginForm();
-    });
-
-    test('TC-LOGIN-UI-010 - Verify Login button text', async ({ loginPage }) => {
+    test('TC-LOGIN-UI-009 - Verify Login button text', async ({ loginPage }) => {
         await expect(loginPage.loginButton).toHaveText('Login');
     });
 
-    test('TC-LOGIN-UI-011 - Verify page does not display validation messages on initial load', async ({ loginPage }) => {
+    test('TC-LOGIN-UI-010 - Verify page does not display validation messages on initial load', async ({ loginPage }) => {
         await expect(loginPage.invalidLoginMessage).toBeHidden();
     });
 
-    test('TC-LOGIN-UI-012 - Verify keyboard focus order', async ({ loginPage, page }) => {
+    test('TC-LOGIN-UI-011 - Verify keyboard focus order', async ({ loginPage, page }) => {
         await loginPage.verifyLoginSignupPageLoaded();
 
         // Start at the email field

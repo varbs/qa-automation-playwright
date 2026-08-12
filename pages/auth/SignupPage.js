@@ -1,5 +1,5 @@
 const { expect } = require("@playwright/test");
-const BasePage = require("./BasePage");
+const BasePage = require("../BasePage");
 
 class SignupPage extends BasePage {
   constructor(page) {
@@ -13,10 +13,6 @@ class SignupPage extends BasePage {
     this.errorMessage = this.signupForm.getByText(
       "Email Address already exist!",
     );
-
-    this.accountInfoHeading = page.getByRole("heading", {
-      name: "Enter Account Information",
-    });
   }
 
   async enterName(name) {
@@ -41,10 +37,6 @@ class SignupPage extends BasePage {
     await expect(this.errorMessage).toBeVisible();
   }
 
-  async verifySignupPage() {
-    await expect(this.accountInfoHeading).toBeVisible();
-  }
+};
 
-
-}
 module.exports = SignupPage;

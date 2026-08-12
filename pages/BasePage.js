@@ -18,8 +18,7 @@ class BasePage {
     // ==========================
 
     async navigateToLoginPage() {
-        await this.page.goto('/');
-        await this.signupLoginLink.click();
+        await this.page.goto('/login');
         await expect(this.page).toHaveURL('/login');
     }
 

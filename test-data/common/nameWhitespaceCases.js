@@ -1,5 +1,5 @@
 
-const emailWhitespaceCases = [
+const nameWhitespaceCases = [
     {
         scenario: 'leading spaces',
         leadingSpaces: 1,
@@ -17,4 +17,4 @@ const emailWhitespaceCases = [
     },
 ];
 
-module.exports = { emailWhitespaceCases };
+module.exports = { nameWhitespaceCases };

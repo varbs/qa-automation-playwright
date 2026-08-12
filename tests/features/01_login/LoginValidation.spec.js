@@ -2,7 +2,7 @@ const { test } = require('../../../fixtures/fixture');
 
 const { VALIDATION_TYPES } = require('../../../constant/validationTypes');
 
-const { loginUsers } = require('../../../test-data/login/loginUsers');
+const { loginUsers } = require('../../../test-data/auth/login/loginUsers');
 const { validUser, incorrectPassword, emptyCredentials } = loginUsers;
 
 const { emailWhitespaceCases } = require('../../../test-data/common/emailWhitespaceCases');
@@ -72,7 +72,7 @@ test.describe('Login - Email Whitespace Handling', () => {
 
         const testCaseId = getTestCaseId(7, index);
 
-        test(`TC-LOGIN-VAL-${testCaseId} - Verify login succeeds with email ${scenario}`, async ({ loginPage }) => {
+        test(`TC-LOGIN-VAL-${testCaseId} - Verify login succeeds with email containing ${scenario}`, async ({ loginPage }) => {
 
             const email = ' '.repeat(leadingSpaces) +
                 validUser.email +
@@ -97,7 +97,6 @@ test.describe('Login - Email Format Validation', () => {
                 email,
                 validUser.password
             );
-
             switch (validationType) {
                 case VALIDATION_TYPES.BROWSER: {
                     await loginPage.verifyBrowserEmailValidation(loginPage.emailTextbox);

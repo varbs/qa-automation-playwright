@@ -1,9 +1,9 @@
 const base = require('@playwright/test');
 
-const AccountInfoPage = require('../pages/AccountInformationPage');
+const AccountInfoPage = require('../pages/auth/AccountInformationPage');
 const HomePage = require('../pages/HomePage');
-const LoginPage = require('../pages/LoginPage');
-const SignupPage = require('../pages/SignupPage');
+const LoginPage = require('../pages/auth/LoginPage');
+const SignupPage = require('../pages/auth/SignupPage');
 
 exports.test = base.test.extend({
 

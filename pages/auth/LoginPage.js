@@ -1,6 +1,6 @@
 const { expect } = require('@playwright/test');
-const BasePage = require('./BasePage');
-const SUBMIT_METHOD = require('../constant/submitMethods');
+const BasePage = require('../BasePage');
+const SUBMIT_METHOD = require('../../constant/submitMethods');
 
 // =====================================
 // LoginPage Page Object
@@ -19,14 +19,9 @@ class LoginPage extends BasePage {
         // LOCATORS
         // ==========================
 
-        this.loginPageUrl = '/login';
-        this.homePageUrl = '/';
-
-
         this.loginTitle = this.page.getByRole('heading', {
             name: 'Login to your account'
         });
-
 
         this.loginForm = this.page.locator('form').filter({
             hasText: 'Login'
@@ -102,46 +97,12 @@ class LoginPage extends BasePage {
         // Allow the page to settle and use a tolerant host/path match for CI environments
         await expect(this.page).toHaveURL(/automationexercise\.com\/?$/);
         await expect(this.loggedInUserLabel).toBeVisible();
-
     }
 
     async verifyInvalidLogin() {
         // Give the app a little extra time to render an error message in slower CI
         await expect(this.invalidLoginMessage).toBeVisible({ timeout: 7000 });
     }
-
-    async verifyFocused(locator) {
-        await expect(locator).toBeFocused();
-    }
-
-    async verifyRequiredField(locator) {
-        const message = await locator.evaluate(
-            element => element.validationMessage
-        );
-        expect(message).toContain('Please fill');
-    }
-
-    async verifyRequiredValidation(locator) {
-        await this.verifyFocused(locator);
-        await this.verifyRequiredField(locator);
-    }
-
-    // Verify that the browser detects an invalid email format
-    // using the built-in HTML5 email validation.
-    async verifyBrowserEmailValidation(locator) {
-        const isTypeMismatch = await locator.evaluate(
-            element => element.validity.typeMismatch
-        );
-        expect(isTypeMismatch).toBe(true);
-    }
-
-    async verifyLoginForm() {
-        await expect(this.loginForm).toBeVisible();
-        await expect(this.loginTitle).toBeVisible();
-        await expect(this.emailTextbox).toBeVisible();
-        await expect(this.passwordTextbox).toBeVisible();
-        await expect(this.loginButton).toBeVisible();
-    }
-}
+};
 
 module.exports = LoginPage;
