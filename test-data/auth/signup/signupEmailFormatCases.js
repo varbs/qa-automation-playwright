@@ -1,6 +1,6 @@
-const { VALIDATION_TYPES } = require('../../constant/validationTypes');
+const { VALIDATION_TYPES } = require('../../../constant/validationTypes');
 
-const emailFormatCases = [
+const signupEmailFormatCases = [
     {
         scenario: 'Email missing @ symbol',
         email: 'usertest.com',
@@ -26,11 +26,11 @@ const emailFormatCases = [
         email: 'users@@test',
         validationType: VALIDATION_TYPES.BROWSER,
     },
-        {
+    {
         scenario: 'Email missing top-level domain',
-        email: 'users@test',
-        validationType: VALIDATION_TYPES.APPLICATION,
+        email: 'test_users@test',
+        validationType: VALIDATION_TYPES.PROCEED,
     },
 ]
 
-module.exports = { emailFormatCases };
+module.exports = { signupEmailFormatCases };

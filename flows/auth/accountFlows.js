@@ -1,6 +1,9 @@
 const { SIGNUP_TITLE } = require('../../constant/signupTitle');
+const SUBMIT_METHOD = require('../../constant/submitMethods');
+
 const { signupCountries } = require('../../test-data/auth/signup/signupCountries');
 const { signupBirthDates } = require('../../test-data/auth/signup/signupBirthDates');
+
 
 const { valid } = signupBirthDates;
 
@@ -8,11 +11,13 @@ async function completeSignup(
     signupPage,
     accountInfoPage,
     user,
+    submitBy = SUBMIT_METHOD.BUTTON,
     country = signupCountries.canada,
     title = SIGNUP_TITLE.MR,
     birthDate = valid
+
 ) {
-    await signupPage.signup(user.name, user.email)
+    await signupPage.signup(user.name, user.email, submitBy)
         .catch(err => { throw new Error(`Failed to complete signup form: ${err.message}`) });
 
     await accountInfoPage.verifyAccountInfoPageLoaded()

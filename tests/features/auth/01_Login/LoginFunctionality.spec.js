@@ -5,43 +5,54 @@ const SUBMIT_METHOD = require('../../../../constant/submitMethods');
 const { loginUsers } = require('../../../../test-data/auth/login/loginUsers');
 const { validUser } = loginUsers;
 
+const { createTcCounter } = require('../../../../utils/testCaseHelper');
+const nextTcId = createTcCounter();
+
 test.describe('Login Functionality', () => {
 
-    test.beforeEach(async ({ loginPage }) => {
+    test(`TC-LOGIN-FUNC-${nextTcId()} - Verify user can login successfully with valid registered credentials`, async ({ loginPage }) => {
         await loginPage.login(
             validUser.email,
             validUser.password
         );
         await loginPage.verifyValidLogin();
-    })
-    test('TC-LOGIN-FUNC-001 - Verify user can login successfully with valid registered credentials', async () => {
-        // Covered by beforeEach
     });
 
-    test('TC-LOGIN-FUNC-002 - Verify user can logout successfully after login', async ({ loginPage }) => {
-        await loginPage.logout();
-        await loginPage.verifyLoginSignupPageLoaded();
-    });
+    test.describe('Authenticated user', () => {
 
-    test('TC-LOGIN-FUNC-003 - Verify login form submits successfully using the Enter key', async ({ loginPage }) => {
-        await loginPage.logout();
+        test.beforeEach(async ({ loginPage }) => {
+            await loginPage.login(
+                validUser.email,
+                validUser.password
+            );
+            await loginPage.verifyValidLogin();
+        });
 
-        await loginPage.login(
-            validUser.email,
-            validUser.password,
-            SUBMIT_METHOD.ENTER
-        );
-        await loginPage.verifyValidLogin();
-    });
+        test(`TC-LOGIN-FUNC-${nextTcId()} - Verify user can logout successfully after login`, async ({ loginPage }) => {
+            await loginPage.logout();
+            await loginPage.verifyLoginSignupPageLoaded();
+        });
 
-    test('TC-LOGIN-FUNC-004 - Verify behavior when accessing the login page while already logged in', async ({ loginPage, page }) => {
-        await page.goto('/login');
-        await loginPage.verifyValidLogin();
-    });
+        test(`TC-LOGIN-FUNC-${nextTcId()} - Verify login form submits successfully using the Enter key`, async ({ loginPage }) => {
+            await loginPage.logout();
 
-    test('TC-LOGIN-FUNC-005 - Verify user session persists after page reload', async ({ loginPage }) => {
-        await loginPage.pageReload();
-        await loginPage.verifyValidLogin();
+            await loginPage.login(
+                validUser.email,
+                validUser.password,
+                SUBMIT_METHOD.ENTER
+            );
+            await loginPage.verifyValidLogin();
+        });
+
+        test(`TC-LOGIN-FUNC-${nextTcId()} - Verify behavior when accessing the login page while already logged in`, async ({ loginPage, page }) => {
+            await page.goto('/login');
+            await loginPage.verifyValidLogin();
+        });
+
+        test(`TC-LOGIN-FUNC-${nextTcId()} - Verify user session persists after page reload`, async ({ loginPage }) => {
+            await loginPage.pageReload();
+            await loginPage.verifyValidLogin();
+        });
     });
-    // TC-LOGIN-FUNC-004 - Verify user session persists across internal page navigation
 });
+    // TC-LOGIN-FUNC-004 - Verify user session persists across internal page navigation
