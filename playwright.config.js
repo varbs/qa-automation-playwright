@@ -10,6 +10,8 @@ module.exports = defineConfig({
   expect: {
     timeout: 5000,
   },
+  // Retry failed tests automatically
+  retries: process.env.CI ? 2 : 0, // only retry in CI, not locally
 
   reporter: 'html',
 
@@ -19,6 +21,5 @@ module.exports = defineConfig({
     baseURL: 'https://automationexercise.com',
     screenshot: 'on',
     trace: 'retain-on-failure',
-
   },
 });
