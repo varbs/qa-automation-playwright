@@ -1,5 +1,7 @@
 const { expect } = require("@playwright/test");
 const BasePage = require("../BasePage");
+const { SIGNUP_TITLE } = require('../../constant/signupTitle');
+const { ACCOUNT_OPTIONS } = require('../../constant/accountOptions');
 
 class AccountInfoPage extends BasePage {
     constructor(page) {
@@ -51,12 +53,17 @@ class AccountInfoPage extends BasePage {
 
     //----- User's Info section -----
     async selectTitle(title) {
-        if (title === "Mr.") {
-            await this.mrTitle.check();
-        } else if (title === "Mrs.") {
-            await this.mrsTitle.check();
-        } else {
-            throw new Error(`Unsupported signup title: ${title}`);
+        switch (title) {
+            case SIGNUP_TITLE.MR:
+                await this.mrTitle.check();
+                break;
+
+            case SIGNUP_TITLE.MRS:
+                await this.mrsTitle.check();
+                break;
+
+            default:
+                throw new Error(`Unsupported signup title: ${title}`);
         }
     }
 
@@ -72,20 +79,28 @@ class AccountInfoPage extends BasePage {
         await this.year.selectOption(year);
     }
 
-    async setNewsletterSubscription(subscribe) {
-        if (subscribe) {
+    async setNewsletterSubscription(checked) {
+        if (checked) {
             await this.newsletterCheckbox.check();
         } else {
             await this.newsletterCheckbox.uncheck();
         }
     }
 
-    async setSpecialOffersSubscription(subscribe) {
-        if (subscribe) {
+    async verifyNewsletterSubscription(checked) {
+        await expect(this.newsletterCheckbox).toBeChecked({ checked });
+    }
+
+    async setSpecialOffersSubscription(checked) {
+        if (checked) {
             await this.specialOffersCheckbox.check();
         } else {
             await this.specialOffersCheckbox.uncheck();
         }
+    }
+
+    async verifySpecialOffersSubscription(checked) {
+        await expect(this.specialOffersCheckbox).toBeChecked({ checked });
     }
 
     //---- Address Information section -----//
@@ -95,6 +110,14 @@ class AccountInfoPage extends BasePage {
 
     async enterLastName(lastName) {
         await this.lastName.fill(lastName);
+    }
+
+    async editName (name){
+        await this.name.fill(name);
+    }
+
+    async verifyName (name){
+        await expect(this.name).toHaveValue(name);
     }
 
     async enterCompany(company) {
@@ -147,12 +170,24 @@ class AccountInfoPage extends BasePage {
         await expect(this.accountInfoHeading).toBeVisible();
     }
 
-    async verifyName(name) {
+    async verifySignupDetails(name, email) {
         await expect(this.name).toHaveValue(name);
+        await expect(this.email).toHaveValue(email);
     }
 
-    async verifyEmail(email) {
-        await expect(this.email).toHaveValue(email);
+    async verifySelectedTitle(title) {
+        switch (title) {
+            case SIGNUP_TITLE.MR:
+                await expect(this.mrTitle).toBeChecked();
+                break;
+
+            case SIGNUP_TITLE.MRS:
+                await expect(this.mrsTitle).toBeChecked();
+                break
+
+            default:
+                throw new Error(`Unsupported signup title: ${title}`);
+        }
     }
 
     async verifySelectedCountry(expectedCountry) {

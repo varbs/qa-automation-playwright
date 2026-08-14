@@ -5,6 +5,11 @@ const signupUser = {
     emptyCredentials: {
         name: '',
         email: '',
+    },
+
+    updatedUser: {
+        firstName: 'James',
+        lastName: 'Bond'
     }
 };
 
