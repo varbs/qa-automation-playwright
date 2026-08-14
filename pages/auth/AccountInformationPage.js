@@ -116,8 +116,12 @@ class AccountInfoPage extends BasePage {
         await this.name.fill(name);
     }
 
-    async verifyName (name){
+    async verifyName(name){
         await expect(this.name).toHaveValue(name);
+    }
+
+    async verifyNameIsEditable(name){
+        await expect(this.name).toBeEditable();
     }
 
     async enterCompany(company) {

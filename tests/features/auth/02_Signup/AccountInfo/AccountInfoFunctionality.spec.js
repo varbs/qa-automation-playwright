@@ -8,9 +8,9 @@ const { accountPreferenceCases } = require('../../../../../test-data/auth/signup
 const { signupUser } = require('../../../../../test-data/auth/signup/signupUsers');
 const { updatedUser } = signupUser;
 
-const { generateSignupUser } = require('../../../../..//utils/generateUser');
+const { generateSignupUser } = require('../../../../../utils/generateUser');
 
-const { createTcCounter } = require('../../../../..//utils/testCaseHelper');
+const { createTcCounter } = require('../../../../../utils/testCaseHelper');
 const nextTcId = createTcCounter();
 
 test.describe('Account Information Functionality', () => {
@@ -25,19 +25,25 @@ test.describe('Account Information Functionality', () => {
     });
 
     test.describe('Signup - Data', () => {
-        test(`TC-ACC-FUN-${nextTcId()} - Verify name and email entered on Signup page are carried over correctly to Account Information page`, async ({ accountInfoPage }) => {
+        test(`TC-ACC-FUNC-${nextTcId()} - Verify name and email entered on Signup page are carried over correctly to Account Information page`, async ({ accountInfoPage }) => {
             await accountInfoPage.verifySignupDetails(user.name, user.email);
         });
 
-        test (`TC-ACC-FUN-${nextTcId()} - Verify name can be Edited`, async ({ accountInfoPage }) => {
-            await accountInfoPage.editName(`${updatedUser.firstName} ${updatedUser.lastName}`);
-            await accountInfoPage.verifyName(`${updatedUser.firstName} ${updatedUser.lastName}`);
+        test(`TC-ACC-FUNC-${nextTcId()} - Verify name can be editable`, async ({ accountInfoPage }) => {
+            await accountInfoPage.verifyNameIsEditable();
+        })
+
+        test(`TC-ACC-FUNC-${nextTcId()} - Verify pre-filled name can be changed to a new value`, async ({ accountInfoPage }) => {
+            const newName = `${updatedUser.firstName} ${updatedUser.lastName}`;
+
+            await accountInfoPage.editName(newName);
+            await accountInfoPage.verifyName(newName);
         });
     });
 
     test.describe(`Title Selection`, () => {
         for (const title of Object.values(SIGNUP_TITLE)) {
-            test(`TC-ACC-FUNC-${nextTcId()} - Verify if user can select ${title} `, async ({ accountInfoPage }) => {
+            test(`TC-ACC-FUNC-${nextTcId()} - Verify if user can select ${title}`, async ({ accountInfoPage }) => {
                 await accountInfoPage.selectTitle(title);
                 await accountInfoPage.verifySelectedTitle(title);
             });
