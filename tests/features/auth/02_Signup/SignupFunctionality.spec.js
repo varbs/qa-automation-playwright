@@ -5,6 +5,7 @@ const SUBMIT_METHOD = require('../../../../constant/submitMethods');
 const { completeSignup } = require('../../../../flows/auth/accountFlows');
 const { generateSignupUser } = require('../../../../utils/generateUser');
 const { createTcCounter } = require('../../../../utils/testCaseHelper');
+const { signupCountries } = require("../../../../test-data/auth/signup/signupCountries");
 
 const nextTcId = createTcCounter();
 
@@ -24,7 +25,10 @@ test.describe('Signup Functionality', () => {
             signupPage,
             accountInfoPage,
             user,
-            SUBMIT_METHOD.ENTER);
+            {
+                submitBy: SUBMIT_METHOD.ENTER
+            }
+        );
     });
 
     test.describe('New Created Account', () => {

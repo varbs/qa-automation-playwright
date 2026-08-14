@@ -11,10 +11,12 @@ async function completeSignup(
     signupPage,
     accountInfoPage,
     user,
+    {
     submitBy = SUBMIT_METHOD.BUTTON,
     country = signupCountries.canada,
     title = SIGNUP_TITLE.MR,
     birthDate = valid
+    } = {}
 
 ) {
     await signupPage.signup(user.name, user.email, submitBy)
