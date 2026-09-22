@@ -57,6 +57,7 @@ class SignupPage extends BasePage {
 
   async verifySignupPageLoaded(){
     await expect(this.page).toHaveURL('/login');
+    await expect(this.signupHeading).toBeVisible();
     await expect(this.signupForm).toBeVisible();
   }
 };

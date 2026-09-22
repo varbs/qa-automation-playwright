@@ -3,26 +3,18 @@ const { expect } = require('@playwright/test');
 class BasePage {
     constructor(page) {
         this.page = page;
-
-        // ==========================
-        // SHARED LOCATORS
-        // ==========================
-
-        this.signupLoginLink = this.page.getByRole('link', {
-            name: 'Signup / Login'
-        });
     }
 
     // ==========================
     // SHARED METHODS
     // ==========================
 
-    async navigateToLoginPage() {
+    async navigateDirectlyToLoginPage() {
         await this.page.goto('/login');
         await expect(this.page).toHaveURL('/login');
     }
-
-    async pageReload(){
+    
+    async pageReload() {
         await this.page.reload();
     }
 

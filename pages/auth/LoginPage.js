@@ -2,14 +2,6 @@ const { expect } = require('@playwright/test');
 const BasePage = require('../BasePage');
 const SUBMIT_METHOD = require('../../constant/submitMethods');
 
-// =====================================
-// LoginPage Page Object
-// =====================================
-//
-// Represents the Login page of the application - contains locators and methods to the Login Page
-// This class extends BasePage, so it automatically inherits common functionality such as:
-// - navigateToLoginPage()
-
 class LoginPage extends BasePage {
     constructor(page) {
 
@@ -45,7 +37,6 @@ class LoginPage extends BasePage {
     // ==========================
     // ACTION METHODS
     // ==========================
-
     async enterEmail(email) {
         await this.emailTextbox.fill(email);
     }
@@ -85,7 +76,7 @@ class LoginPage extends BasePage {
     // VERIFICATION METHODS
     // ==========================
 
-    async verifyLoginSignupPageLoaded() {
+    async verifyLoginPageLoaded() {
         // Use a tolerant URL assertion for the login page
         await expect(this.page).toHaveURL(/\/login\/?$/);
         await expect(this.loginTitle).toBeVisible();

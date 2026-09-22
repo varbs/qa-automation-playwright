@@ -61,7 +61,7 @@ test.describe('Signup Functionality', () => {
             });
 
             test(`TC-SIGNUP-FUNC-${nextTcId()} - Verify deleted user cannot log in`, async ({ loginPage }) => {
-                await loginPage.navigateToLoginPage();
+                await loginPage.navigateDirectlyToLoginPage();
 
                 await loginPage.login(
                     user.email,

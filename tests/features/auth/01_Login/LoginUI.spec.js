@@ -42,7 +42,7 @@ test.describe('Login UI', () => {
     });
 
     test(`TC-LOGIN-UI-${nextTcId()} - Verify Login and Signup sections are displayed`, async ({ loginPage }) => {
-        await loginPage.verifyLoginSignupPageLoaded();
+        await loginPage.verifyLoginPageLoaded();
     });
 
     test(`TC-LOGIN-UI-${nextTcId()} - Verify Login button text`, async ({ loginPage }) => {
@@ -54,7 +54,7 @@ test.describe('Login UI', () => {
     });
 
     test(`TC-LOGIN-UI-${nextTcId()} - Verify keyboard focus order`, async ({ loginPage, page }) => {
-        await loginPage.verifyLoginSignupPageLoaded();
+        await loginPage.verifyLoginPageLoaded();
 
         // Start at the email field
         await loginPage.emailTextbox.focus();

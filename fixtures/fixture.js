@@ -10,8 +10,8 @@ exports.test = base.test.extend({
     loginPage: async ({ page }, use) => {
         const loginPage = new LoginPage(page);
 
-        await loginPage.navigateToLoginPage();
-        await loginPage.verifyLoginSignupPageLoaded();
+        await loginPage.navigateDirectlyToLoginPage();
+        await loginPage.verifyLoginPageLoaded();
 
         await use(loginPage);
     },
@@ -19,7 +19,8 @@ exports.test = base.test.extend({
     signupPage: async ({ page }, use) => {
         const signupPage = new SignupPage(page);
 
-        await signupPage.navigateToLoginPage();
+        await signupPage.navigateDirectlyToLoginPage();
+        await signupPage.verifySignupPageLoaded();        
         await use(signupPage);
     },
 
