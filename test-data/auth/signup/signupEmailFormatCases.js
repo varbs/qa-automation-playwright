@@ -1,4 +1,4 @@
-const { VALIDATION_TYPES } = require('../../../constant/validationTypes');
+const { VALIDATION_TYPES } = require('../../../constants/validationTypes');
 
 const signupEmailFormatCases = [
     {

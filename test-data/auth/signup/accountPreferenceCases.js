@@ -1,4 +1,4 @@
-const { ACCOUNT_OPTIONS } = require('../../../constant/accountOptions');
+const { ACCOUNT_OPTIONS } = require('../../../constants/accountOptions');
 
 const accountPreferenceCases = [
     {

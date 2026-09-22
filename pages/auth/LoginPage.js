@@ -1,6 +1,6 @@
 const { expect } = require('@playwright/test');
 const BasePage = require('../BasePage');
-const SUBMIT_METHOD = require('../../constant/submitMethods');
+const SUBMIT_METHOD = require('../../constants/submitMethods');
 
 class LoginPage extends BasePage {
     constructor(page) {

@@ -1,6 +1,6 @@
 const { test } = require('../../../../fixtures/fixture');
 
-const { VALIDATION_TYPES } = require('../../../../constant/validationTypes');
+const { VALIDATION_TYPES } = require('../../../../constants/validationTypes');
 
 const { loginUsers } = require('../../../../test-data/auth/login/loginUsers');
 const { validUser, incorrectPassword, emptyCredentials } = loginUsers;

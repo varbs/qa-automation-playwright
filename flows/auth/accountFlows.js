@@ -1,5 +1,5 @@
-const { SIGNUP_TITLE } = require('../../constant/signupTitle');
-const SUBMIT_METHOD = require('../../constant/submitMethods');
+const { SIGNUP_TITLE } = require('../../constants/signupTitle');
+const SUBMIT_METHOD = require('../../constants/submitMethods');
 
 const { signupCountries } = require('../../test-data/auth/signup/signupCountries');
 const { signupBirthDates } = require('../../test-data/auth/signup/signupBirthDates');

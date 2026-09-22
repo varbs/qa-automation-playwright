@@ -1,7 +1,7 @@
 const { test } = require("../../../../../fixtures/fixture");
 
-const { SIGNUP_TITLE } = require('../../../../../constant/signupTitle');
-const { ACCOUNT_OPTIONS } = require("../../../../../constant/accountOptions");
+const { SIGNUP_TITLE } = require('../../../../../constants/signupTitle');
+const { ACCOUNT_OPTIONS } = require("../../../../../constants/accountOptions");
 
 const { accountPreferenceCases } = require('../../../../../test-data/auth/signup/accountPreferenceCases');
 const { signupCountries } = require('../../../../../test-data/auth/signup/signupCountries');

@@ -1,5 +1,5 @@
 const { test } = require("../../../../fixtures/fixture")
-const { VALIDATION_TYPES } = require('../../../../constant/validationTypes');
+const { VALIDATION_TYPES } = require('../../../../constants/validationTypes');
 
 const { whitespaceCases } = require('../../../../test-data/common/whitespaceCases');
 const { signupEmailFormatCases } = require('../../../../test-data/auth/signup/signupEmailFormatCases');

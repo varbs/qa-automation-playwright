@@ -1,7 +1,7 @@
 const { expect } = require("@playwright/test");
 const BasePage = require("../BasePage");
-const { SIGNUP_TITLE } = require('../../constant/signupTitle');
-const { ACCOUNT_OPTIONS } = require('../../constant/accountOptions');
+const { SIGNUP_TITLE } = require('../../constants/signupTitle');
+const { ACCOUNT_OPTIONS } = require('../../constants/accountOptions');
 
 class AccountInfoPage extends BasePage {
     constructor(page) {
@@ -123,6 +123,8 @@ class AccountInfoPage extends BasePage {
     async verifyNameIsEditable(name){
         await expect(this.name).toBeEditable();
     }
+
+    
 
     async enterCompany(company) {
         await this.company.fill(company);

@@ -1,6 +1,6 @@
 const { test } = require('../../../../fixtures/fixture');
 
-const SUBMIT_METHOD = require('../../../../constant/submitMethods');
+const SUBMIT_METHOD = require('../../../../constants/submitMethods');
 
 const { loginUsers } = require('../../../../test-data/auth/login/loginUsers');
 const { validUser } = loginUsers;
