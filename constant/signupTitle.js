@@ -1,6 +1,6 @@
 const SIGNUP_TITLE = {
     MR: 'Mr.',
-    MRS: 'Mrs'
+    MRS: 'Mrs.'
 };
 
 module.exports = { SIGNUP_TITLE };

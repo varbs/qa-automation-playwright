@@ -5,7 +5,6 @@ const SUBMIT_METHOD = require('../../../../constant/submitMethods');
 const { completeSignup } = require('../../../../flows/auth/accountFlows');
 const { generateSignupUser } = require('../../../../utils/generateUser');
 const { createTcCounter } = require('../../../../utils/testCaseHelper');
-const { signupCountries } = require("../../../../test-data/auth/signup/signupCountries");
 
 const nextTcId = createTcCounter();
 

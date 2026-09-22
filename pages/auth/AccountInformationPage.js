@@ -163,6 +163,19 @@ class AccountInfoPage extends BasePage {
         await this.enterMobile(address.mobile);
     }
 
+    async enterRequiredFields(user){
+        await this.enterPassword(user.password);
+        await this.enterFirstName(user.firstName);
+        await this.enterLastName(user.lastName);
+        await this.fillAddress(user.address1, '');
+        await this.selectCountry(user.country);
+        await this.enterState(user.state);
+        await this.enterCity(user.city);
+        await this.enterZipCode(user.zipCode);
+        await this.enterMobile(user.mobile);
+    }
+
+
     //---- Account actions -----//
     async createAccount() {
         await this.createAccountButton.click();

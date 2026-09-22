@@ -4,6 +4,7 @@ const { SIGNUP_TITLE } = require('../../../../../constant/signupTitle');
 const { ACCOUNT_OPTIONS } = require("../../../../../constant/accountOptions");
 
 const { accountPreferenceCases } = require('../../../../../test-data/auth/signup/accountPreferenceCases');
+const { signupCountries } = require('../../../../../test-data/auth/signup/signupCountries');
 
 const { signupUser } = require('../../../../../test-data/auth/signup/signupUsers');
 const { updatedUser } = signupUser;
@@ -22,6 +23,23 @@ test.describe('Account Information Functionality', () => {
 
         await signupPage.signup(user.name, user.email);
         await accountInfoPage.verifyAccountInfoPageLoaded();
+    });
+
+    test(`TC-ACC-FUN-${nextTcId()} - Verify if user can successfully create an account with only required fields filled`, async ({ accountInfoPage }) => {
+        await accountInfoPage.enterRequiredFields({
+            password: user.password,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            address1: user.address1,
+            country: signupCountries.australia,
+            state: user.state,
+            city: user.city,
+            zipCode: user.zipCode,
+            mobile: user.mobile,
+        });
+
+        await accountInfoPage.createAccount();
+        await accountInfoPage.verifyAccountCompletion();
     });
 
     test.describe('Signup - Data', () => {
@@ -46,6 +64,26 @@ test.describe('Account Information Functionality', () => {
             test(`TC-ACC-FUNC-${nextTcId()} - Verify if user can select ${title}`, async ({ accountInfoPage }) => {
                 await accountInfoPage.selectTitle(title);
                 await accountInfoPage.verifySelectedTitle(title);
+            });
+
+            test(`TC-ACC-FUNC-${nextTcId()} - Verify successful account creation with ${title}`, async ({ accountInfoPage }) => {
+                await accountInfoPage.selectTitle(title);
+                await accountInfoPage.verifySelectedTitle(title);
+
+                await accountInfoPage.enterRequiredFields({
+                    password: user.password,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    address1: user.address1,
+                    country: signupCountries.australia,
+                    state: user.state,
+                    city: user.city,
+                    zipCode: user.zipCode,
+                    mobile: user.mobile,
+                });
+
+                await accountInfoPage.createAccount();
+                await accountInfoPage.verifyAccountCompletion();
             });
         }
     });
