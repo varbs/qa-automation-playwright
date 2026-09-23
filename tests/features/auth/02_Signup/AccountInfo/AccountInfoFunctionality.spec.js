@@ -1,12 +1,9 @@
 const { test } = require("../../../../../fixtures/fixture");
 
 const { SIGNUP_TITLE } = require('../../../../../constants/signupTitle');
-const { ACCOUNT_OPTIONS } = require("../../../../../constants/accountOptions");
 
 const { accountPreferenceCases } = require('../../../../../test-data/auth/signup/accountPreferenceCases');
-const { signupCountries } = require('../../../../../test-data/auth/signup/signupCountries');
-
-const { signupUser } = require('../../../../../test-data/auth/signup/signupUsers');
+const { signupUser, getRequiredFields } = require('../../../../../test-data/auth/signup/signupUsers');
 const { updatedUser } = signupUser;
 
 const { generateSignupUser } = require('../../../../../utils/generateUser');
@@ -25,18 +22,9 @@ test.describe('Account Information Functionality', () => {
         await accountInfoPage.verifyAccountInfoPageLoaded();
     });
 
-    test(`TC-ACC-FUN-${nextTcId()} - Verify if user can successfully create an account with only required fields filled`, async ({ accountInfoPage }) => {
-        await accountInfoPage.enterRequiredFields({
-            password: user.password,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            address1: user.address1,
-            country: signupCountries.australia,
-            state: user.state,
-            city: user.city,
-            zipCode: user.zipCode,
-            mobile: user.mobile,
-        });
+
+    test(`TC-ACC-FUNC-${nextTcId()} - Verify if user can successfully create an account with only required fields filled`, async ({ accountInfoPage }) => {
+        await accountInfoPage.enterRequiredFields(getRequiredFields(user));
 
         await accountInfoPage.createAccount();
         await accountInfoPage.verifyAccountCompletion();
@@ -68,19 +56,7 @@ test.describe('Account Information Functionality', () => {
 
             test(`TC-ACC-FUNC-${nextTcId()} - Verify successful account creation with ${title}`, async ({ accountInfoPage }) => {
                 await accountInfoPage.selectTitle(title);
-                await accountInfoPage.verifySelectedTitle(title);
-
-                await accountInfoPage.enterRequiredFields({
-                    password: user.password,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    address1: user.address1,
-                    country: signupCountries.australia,
-                    state: user.state,
-                    city: user.city,
-                    zipCode: user.zipCode,
-                    mobile: user.mobile,
-                });
+                await accountInfoPage.enterRequiredFields(getRequiredFields(user));
 
                 await accountInfoPage.createAccount();
                 await accountInfoPage.verifyAccountCompletion();
@@ -89,22 +65,10 @@ test.describe('Account Information Functionality', () => {
     });
 
     test.describe('Account Preference Cases', () => {
-        for (const { option, label, checked } of accountPreferenceCases) {
+        for (const { label, checked, set, verify } of accountPreferenceCases) {
             test(`TC-ACC-FUNC-${nextTcId()} - Verify user can ${checked ? 'check' : 'leave unchecked'} ${label}`, async ({ accountInfoPage }) => {
-                switch (option) {
-                    case ACCOUNT_OPTIONS.NEWSLETTER:
-                        await accountInfoPage.setNewsletterSubscription(checked);
-                        await accountInfoPage.verifyNewsletterSubscription(checked);
-                        break;
-
-                    case ACCOUNT_OPTIONS.SPECIAL_OFFERS:
-                        await accountInfoPage.setSpecialOffersSubscription(checked);
-                        await accountInfoPage.verifySpecialOffersSubscription(checked);
-                        break;
-
-                    default:
-                        throw new Error(`Unsupported option: ${option}`);
-                }
+                await set(accountInfoPage, checked);
+                await verify(accountInfoPage, checked);
             });
         }
     });

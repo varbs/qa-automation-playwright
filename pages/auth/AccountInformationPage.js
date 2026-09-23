@@ -170,7 +170,11 @@ class AccountInfoPage extends BasePage {
         await this.enterFirstName(user.firstName);
         await this.enterLastName(user.lastName);
         await this.fillAddress(user.address1, '');
-        await this.selectCountry(user.country);
+
+        if (user.country){
+            await this.selectCountry(user.country);
+        }
+        
         await this.enterState(user.state);
         await this.enterCity(user.city);
         await this.enterZipCode(user.zipCode);
