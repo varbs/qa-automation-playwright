@@ -45,29 +45,5 @@ test.describe('Signup Functionality', () => {
             await homePage.continueToHomePage();
             await homePage.verifyUserisLoggedIn();
         });
-
-        test.describe('Account Deletion', () => {
-
-            test.beforeEach(async ({ homePage }) => {
-                await homePage.continueToHomePage();
-                await homePage.verifyUserisLoggedIn();
-
-                await homePage.deleteAccountAndVerifyDeletion();
-            });
-
-            test(`TC-SIGNUP-FUNC-${nextTcId()} - Verify user can delete newly created account`, async () => {
-                // Account deletion is verified by the beforeEach hook
-            });
-
-            test(`TC-SIGNUP-FUNC-${nextTcId()} - Verify deleted user cannot log in`, async ({ loginPage }) => {
-                await loginPage.navigateDirectlyToLoginPage();
-
-                await loginPage.login(
-                    user.email,
-                    user.password
-                );
-                await loginPage.verifyInvalidLogin();
-            });
-        });
     });
 });

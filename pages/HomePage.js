@@ -17,6 +17,9 @@ class HomePage extends BasePage {
 
         // Continue
         this.continueButton = this.page.getByRole('link', { name: 'Continue' });
+        
+        this.logoutButton = this.page.getByRole('link', { name: /Logout/i });
+
     }
     
     //--- Account actions ----//
@@ -27,6 +30,10 @@ class HomePage extends BasePage {
     
     async deleteAccount(){
         await this.deleteAccountButton.click();
+    }
+
+    async logout(){
+        await this.logoutButton.click();
     }
 
     //--- Assertions ---//
@@ -40,7 +47,7 @@ class HomePage extends BasePage {
     }
 
     async verifyUserIsLoggedOut(){
-        await expect(this.page).toHaveURL('/');
+        await expect(this.page).toHaveURL('/login');
     }
 
     //--- Combined worflows ---//

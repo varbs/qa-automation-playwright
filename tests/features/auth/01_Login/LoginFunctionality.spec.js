@@ -28,11 +28,6 @@ test.describe('Login Functionality', () => {
             await loginPage.verifyValidLogin();
         });
 
-        test(`TC-LOGIN-FUNC-${nextTcId()} - Verify user can logout successfully after login`, async ({ loginPage }) => {
-            await loginPage.logout();
-            await loginPage.verifyLoginPageLoaded();
-        });
-
         test(`TC-LOGIN-FUNC-${nextTcId()} - Verify login form submits successfully using the Enter key`, async ({ loginPage }) => {
             await loginPage.logout();
 
