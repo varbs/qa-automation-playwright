@@ -1,40 +1,19 @@
-# Playwright Automation Practice
-
-## About
-
-This repository contains Playwright automation tests for the Automation Exercise website.
+## Test Suites
+- ✅ Login (Functionality, UI, Validation)
+- ✅ Signup (Functionality, UI, Validation)
+- ✅ Account Information (Functionality, UI, Validation)
+- ✅ Account Deletion
+- ✅ Logout
 
 ## Tech Stack
-
 - Playwright
 - JavaScript
 - Node.js
+- Faker.js
+- GitHub Actions CI/CD
 
-## Test Cases
-
-- TC001 - Invalid Login
-- TC002 - Signup with Valid Credentials
-
-## Installation
-
-```bash
-npm install
-```
-
-## Run Tests
-
-```bash
-npx playwright test
-```
-
-## Run Headed
-
-```bash
-npx playwright test --headed
-```
-
-## View Report
-
-```bash
-npx playwright show-report
-```
+## Patterns Used
+- Page Object Model (POM)
+- Data-driven testing
+- Custom fixtures
+- Reusable flows
