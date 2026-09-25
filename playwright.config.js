@@ -1,25 +1,46 @@
 require('dotenv').config();
-// @ts-check
 const { defineConfig } = require('@playwright/test');
 
 module.exports = defineConfig({
   testDir: './tests',
-
   timeout: 30 * 1000,
-
-  expect: {
-    timeout: 5000,
-  },
-  // Retry failed tests automatically
-  retries: process.env.CI ? 2 : 0, // only retry in CI, not locally
-
+  expect: { timeout: 5000 },
+  retries: process.env.CI ? 2 : 0,
   reporter: 'html',
+  globalSetup: './global-setup.js',
 
-  use: {
-    browserName: 'chromium',
-    headless: true, // Required for GitHub Actions
-    baseURL: 'https://automationexercise.com',
-    screenshot: 'on',
-    trace: 'retain-on-failure',
-  },
+  projects: [
+    {
+      name: 'logged-out',
+      testMatch: [
+        '**/01_Login/**',
+        '**/02_Signup/**',
+        '**/03_AccountDeletion/**',
+        '**/04_Logout/**',
+      ],
+      use: {
+        browserName: 'chromium',
+        headless: true,
+        baseURL: 'https://automationexercise.com',
+        screenshot: 'on',
+        trace: 'retain-on-failure',
+      },
+    },
+    {
+      name: 'logged-in',
+      testMatch: [
+        '**/05_Products/**',
+        '**/06_Cart/**',
+        '**/07_ContactUs/**',
+      ],
+      use: {
+        browserName: 'chromium',
+        headless: true,
+        baseURL: 'https://automationexercise.com',
+        screenshot: 'on',
+        trace: 'retain-on-failure',
+        storageState: '.auth/session.json',
+      },
+    },
+  ],
 });
