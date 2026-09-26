@@ -11,6 +11,7 @@ Playwright + JavaScript test automation portfolio project for [automationexercis
 | Account Information | ✅ | ✅ | ✅ |
 | Account Deletion | ✅ | — | — |
 | Logout | ✅ | — | — |
+| Products | ✅ | — | — |
 
 ## Tech Stack
 
@@ -74,6 +75,9 @@ npx playwright test
 # Run a specific project
 npx playwright test --project=logged-out
 npx playwright test --project=logged-in
+
+# Run a specific suite
+npx playwright test tests/features/05_Products/
 
 # Open the HTML report
 npx playwright show-report

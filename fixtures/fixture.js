@@ -4,6 +4,8 @@ const AccountInfoPage = require('../pages/auth/AccountInformationPage');
 const HomePage = require('../pages/HomePage');
 const LoginPage = require('../pages/auth/LoginPage');
 const SignupPage = require('../pages/auth/SignupPage');
+const ProductsPage = require('../pages/products/ProductsPage');
+const ProductsDetailPage = require('../pages/products/ProductsDetailPage');
 
 exports.test = base.test.extend({
 
@@ -20,7 +22,7 @@ exports.test = base.test.extend({
         const signupPage = new SignupPage(page);
 
         await signupPage.navigateDirectlyToLoginPage();
-        await signupPage.verifySignupPageLoaded();        
+        await signupPage.verifySignupPageLoaded();
         await use(signupPage);
     },
 
@@ -32,6 +34,19 @@ exports.test = base.test.extend({
     homePage: async ({ page }, use) => {
         const homePage = new HomePage(page);
         await use(homePage);
-    }});
+    },
+
+
+    productsPage: async ({ page }, use) => {
+        const productsPage = new ProductsPage(page);
+        await use(productsPage);
+    },
+
+    productsDetailPage: async ({ page }, use) => {
+        const productsDetailPage = new ProductsDetailPage(page);
+        await use(productsDetailPage);
+    }
+});
+
 
 exports.expect = base.expect;

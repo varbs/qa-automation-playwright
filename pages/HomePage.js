@@ -24,6 +24,11 @@ class HomePage extends BasePage {
     
     //--- Account actions ----//
 
+    async navigateToHomePage(){
+        await this.page.goto('https://automationexercise.com/');
+        await expect(this.loggedInUserLabel).toBeVisible();
+    }
+
     async continueToHomePage(){
         await this.continueButton.click();
     }
@@ -55,6 +60,8 @@ class HomePage extends BasePage {
         await this.deleteAccount();
         await this.verifyAccountDeleted();
     }
+
+
 
 };
 
