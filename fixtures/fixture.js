@@ -9,18 +9,27 @@ const ProductsDetailPage = require('../pages/products/ProductsDetailPage');
 
 exports.test = base.test.extend({
 
+    page: async ({ page }, use) => {
+        await page.route('**/*', (route) => {
+            const blocked = ['doubleclick.net', 'googlesyndication.com', 'adsbygoogle.js'];
+            if (blocked.some(ad => route.request().url().includes(ad))) {
+                route.abort();
+            } else {
+                route.continue();
+            }
+        });
+        await use(page);
+    },
+
     loginPage: async ({ page }, use) => {
         const loginPage = new LoginPage(page);
-
         await loginPage.navigateDirectlyToLoginPage();
         await loginPage.verifyLoginPageLoaded();
-
         await use(loginPage);
     },
 
     signupPage: async ({ page }, use) => {
         const signupPage = new SignupPage(page);
-
         await signupPage.navigateDirectlyToLoginPage();
         await signupPage.verifySignupPageLoaded();
         await use(signupPage);
@@ -36,7 +45,6 @@ exports.test = base.test.extend({
         await use(homePage);
     },
 
-
     productsPage: async ({ page }, use) => {
         const productsPage = new ProductsPage(page);
         await use(productsPage);
@@ -45,8 +53,7 @@ exports.test = base.test.extend({
     productsDetailPage: async ({ page }, use) => {
         const productsDetailPage = new ProductsDetailPage(page);
         await use(productsDetailPage);
-    }
+    },
 });
-
 
 exports.expect = base.expect;

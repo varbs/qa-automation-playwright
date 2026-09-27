@@ -1,4 +1,6 @@
-const { test } = require('../../../fixtures/fixture')
+const { test, expect } = require('../../../fixtures/fixture');
+
+const { productName } = require('../../../test-data/products/productSearchData');
 
 const { createTcCounter } = require('../../../utils/testCaseHelper');
 const nextTcId = createTcCounter();
@@ -20,6 +22,7 @@ test.describe('Product Functionality', () => {
 
     test.describe('Product Detailed Page', () => {
         test.beforeEach(async ({ productsPage, productsDetailPage }) => {
+            // Arrange
             await productsPage.clickProduct();
             await productsDetailPage.verifyProductDetailPageLoaded();
         })
@@ -55,13 +58,81 @@ test.describe('Product Functionality', () => {
         test(`TC-PROD-FUNC-${nextTcId()} - Verify user can add a product to cart from the product detail page`, async ({ productsDetailPage }) => {
             await productsDetailPage.addToCart();
             await productsDetailPage.verifyAddToCartModal();
+        });
+
+        test.describe('Product Quantity Functionality', () => {
+            test.describe('Input field', () => {
+                test(`TC-PROD-FUNC-${nextTcId()} - Verify user can input quantity manually before adding to cart`, async ({ productsDetailPage }) => {
+                    await productsDetailPage.setQuantity(3);
+                    await productsDetailPage.addToCart();
+
+                    await productsDetailPage.verifyQuantity(3);
+                });
+            });
+
+            test.describe('Keyboard Interaction', () => {
+                test(`TC-PROD-FUNC-${nextTcId()} - Verify user can increase quantity using ArrowUp key`, async ({ productsDetailPage }) => {
+                    // Arrange — set the starting quantity to 1
+                    await productsDetailPage.setQuantity(1);
+
+                    // Act — increment quantity from 1 to 3 using the ArrowUp key
+                    // Press ArrowUp twice: 1 → 2 → 3
+                    await productsDetailPage.incrementQuantity(2);
+                    await productsDetailPage.addToCart();
+
+                    // Assert - verify the quantity is 3
+                    await productsDetailPage.verifyQuantity(3);
+                });
+
+                test(`TC-PROD-FUNC-${nextTcId()} - Verify user can decrease quantity using ArrowDown key`, async ({ productsDetailPage }) => {
+                    await productsDetailPage.setQuantity(3);
+
+                    await productsDetailPage.decrementQuantity(1);
+                    await productsDetailPage.addToCart();
+
+                    await productsDetailPage.verifyQuantity(2);
+                })
+            });
         })
     });
 
     test(`TC-PROD-FUNC-${nextTcId()} - Verify user can add a product to cart from the Products page`, async ({ productsPage }) => {
         await productsPage.addToCartFromList();
         await productsPage.verifyAddToCartModalVisible();
-    })
+    });
 
+    test.describe('Product Search Functionality', () => {
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify user can search an existing product by name`, async ({ productsPage }) => {
+            await productsPage.searchProduct(productName.validKeyword);
+            await productsPage.verifySearchResultsVisible();
+        });
 
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify user receives no results when searching for a non-existent product by name`, async ({ productsPage }) => {
+            await productsPage.searchProduct(productName.noResultsKeyword);
+            await productsPage.verifyNoSearchResultFound();
+        });
+
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify search is case-insensitive`, async({ productsPage }) => {
+            await productsPage.searchProduct(productName.caseInsensitiveKeyword);
+            await productsPage.verifySearchResultsVisible();
+        });
+
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify user receives all search results when searching an empty keyword`, async ({ productsPage }) => {
+            await productsPage.searchProduct(productName.emptyKeyword);
+            await expect(productsPage.productsTitle).toBeVisible();
+        });
+
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify search results display products matching the keyword`, async ({ productsPage }) => {
+            await productsPage.searchProduct(productName.validKeyword);
+            await productsPage.verifySearchResultsMatchKeyword(productName.validKeyword);
+        });
+
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify user can view a product from search results`, async ({ productsPage, productsDetailPage }) => {
+            await productsPage.searchProduct(productName.validKeyword);
+            await productsPage.verifySearchResultsVisible();
+
+            await productsPage.clickProduct();
+            await productsDetailPage.verifyProductDetailPageLoaded();
+        });
+    });
 });
