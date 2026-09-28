@@ -13,6 +13,16 @@ Playwright + JavaScript test automation portfolio project for [automationexercis
 | Logout | ✅ | — | — |
 | Products | ✅ | ✅ | — |
 
+## What's Covered
+
+### Products
+- Product listing page navigation and visibility
+- Product detail page: name, category, price, availability, condition, brand
+- Add to cart from product list and product detail page
+- Quantity controls: manual input, ArrowUp / ArrowDown keyboard interaction
+- Product search: valid keyword, no results, case-insensitive, empty keyword, keyword match, navigate from results
+- UI assertions: page title, product card images, names, prices, Add to Cart and View Product buttons, search bar
+
 ## Tech Stack
 
 - [Playwright](https://playwright.dev/) — test framework and browser automation
