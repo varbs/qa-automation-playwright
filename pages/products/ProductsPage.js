@@ -9,7 +9,7 @@ class ProductsPage extends BasePage {
         this.productsTitle = this.page.getByRole('heading', { name: 'All Products' });
 
         this.productCards = this.page.locator('.features_items .col-sm-4');
-        this.addToCartModal = this.page.locator('.modal-content');
+        this.addToCartModal = this.page.locator('#cartModal');
         this.addToCartModalTitle = this.addToCartModal.getByText('Added!');
 
         this.searchInput = this.page.getByRole('textbox', { name: 'Search Product' });
@@ -101,7 +101,7 @@ class ProductsPage extends BasePage {
         expect(count).toBeGreaterThan(0);
 
         for (let i = 0; i < count; i++) {
-            const productImage = await this.productCards
+            const productImage = this.productCards
                 .nth(i)
                 .locator('.productinfo img');
 
@@ -109,12 +109,12 @@ class ProductsPage extends BasePage {
         }
     }
 
-    async verifyProductNamesIsVisible() {
+    async verifyProductNamesAreVisible() {
         const count = await this.productCards.count();
         expect(count).toBeGreaterThan(0);
 
         for (let i = 0; i < count; i++) {
-            const productName = await this.productCards
+            const productName = this.productCards
                 .nth(i)
                 .locator('.productinfo p');
 
@@ -122,12 +122,12 @@ class ProductsPage extends BasePage {
         }
     }
 
-    async verifyProductPricesIsVisible() {
+    async verifyProductPricesAreVisible() {
         const count = await this.productCards.count();
         expect(count).toBeGreaterThan(0);
 
         for (let i = 0; i < count; i++) {
-            const productPrice = await this.productCards
+            const productPrice = this.productCards
                 .nth(i)
                 .locator('.productinfo h2');
 
@@ -135,12 +135,12 @@ class ProductsPage extends BasePage {
         }
     }
 
-    async verifyAddToCartButtonsIsVisible() {
+    async verifyAddToCartButtonsAreVisible() {
         const count = await this.productCards.count();
         expect(count).toBeGreaterThan(0);
 
         for (let i = 0; i < count; i++) {
-            const addToCartButton = await this.productCards
+            const addToCartButton = this.productCards
                 .nth(i)
                 .locator('.productinfo a');
 
@@ -148,12 +148,12 @@ class ProductsPage extends BasePage {
         }
     }
 
-    async verifyViewProductButtonsIsVisible() {
+    async verifyViewProductButtonsAreVisible() {
         const count = await this.productCards.count();
         expect(count).toBeGreaterThan(0);
 
         for (let i = 0; i < count; i++) {
-            const viewProductButton = await this.productCards
+            const viewProductButton = this.productCards
                 .nth(i)
                 .locator('.choose a');
 

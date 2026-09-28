@@ -11,7 +11,7 @@ Playwright + JavaScript test automation portfolio project for [automationexercis
 | Account Information | ✅ | ✅ | ✅ |
 | Account Deletion | ✅ | — | — |
 | Logout | ✅ | — | — |
-| Products | ✅ | — | — |
+| Products | ✅ | ✅ | — |
 
 ## Tech Stack
 

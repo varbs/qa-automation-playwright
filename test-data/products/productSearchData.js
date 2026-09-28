@@ -1,8 +1,8 @@
-const productName = {
+const productSearchData = {
     validKeyword: 'Top',
     noResultsKeyword: 'xyznonexistent123',
     caseInsensitiveKeyword: 'top', //lowercase version of validKeyword
     emptyKeyword: ''
 };
 
-module.exports = { productName };
+module.exports = { productSearchData };

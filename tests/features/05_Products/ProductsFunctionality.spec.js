@@ -1,6 +1,6 @@
 const { test, expect } = require('../../../fixtures/fixture');
 
-const { productName } = require('../../../test-data/products/productSearchData');
+const { productSearchData } = require('../../../test-data/products/productSearchData');
 
 const { createTcCounter } = require('../../../utils/testCaseHelper');
 const nextTcId = createTcCounter();
@@ -103,32 +103,32 @@ test.describe('Product Functionality', () => {
 
     test.describe('Product Search Functionality', () => {
         test(`TC-PROD-FUNC-${nextTcId()} - Verify user can search an existing product by name`, async ({ productsPage }) => {
-            await productsPage.searchProduct(productName.validKeyword);
+            await productsPage.searchProduct(productSearchData.validKeyword);
             await productsPage.verifySearchResultsVisible();
         });
 
         test(`TC-PROD-FUNC-${nextTcId()} - Verify user receives no results when searching for a non-existent product by name`, async ({ productsPage }) => {
-            await productsPage.searchProduct(productName.noResultsKeyword);
+            await productsPage.searchProduct(productSearchData.noResultsKeyword);
             await productsPage.verifyNoSearchResultFound();
         });
 
         test(`TC-PROD-FUNC-${nextTcId()} - Verify search is case-insensitive`, async({ productsPage }) => {
-            await productsPage.searchProduct(productName.caseInsensitiveKeyword);
+            await productsPage.searchProduct(productSearchData.caseInsensitiveKeyword);
             await productsPage.verifySearchResultsVisible();
         });
 
         test(`TC-PROD-FUNC-${nextTcId()} - Verify user receives all search results when searching an empty keyword`, async ({ productsPage }) => {
-            await productsPage.searchProduct(productName.emptyKeyword);
+            await productsPage.searchProduct(productSearchData.emptyKeyword);
             await expect(productsPage.productsTitle).toBeVisible();
         });
 
         test(`TC-PROD-FUNC-${nextTcId()} - Verify search results display products matching the keyword`, async ({ productsPage }) => {
-            await productsPage.searchProduct(productName.validKeyword);
-            await productsPage.verifySearchResultsMatchKeyword(productName.validKeyword);
+            await productsPage.searchProduct(productSearchData.validKeyword);
+            await productsPage.verifySearchResultsMatchKeyword(productSearchData.validKeyword);
         });
 
         test(`TC-PROD-FUNC-${nextTcId()} - Verify user can view a product from search results`, async ({ productsPage, productsDetailPage }) => {
-            await productsPage.searchProduct(productName.validKeyword);
+            await productsPage.searchProduct(productSearchData.validKeyword);
             await productsPage.verifySearchResultsVisible();
 
             await productsPage.clickProduct();
