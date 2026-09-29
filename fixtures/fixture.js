@@ -6,6 +6,7 @@ const LoginPage = require('../pages/auth/LoginPage');
 const SignupPage = require('../pages/auth/SignupPage');
 const ProductsPage = require('../pages/products/ProductsPage');
 const ProductsDetailPage = require('../pages/products/ProductsDetailPage');
+const CartPage = require('../pages/cart/CartPage');
 
 exports.test = base.test.extend({
 
@@ -53,6 +54,11 @@ exports.test = base.test.extend({
     productsDetailPage: async ({ page }, use) => {
         const productsDetailPage = new ProductsDetailPage(page);
         await use(productsDetailPage);
+    },
+
+    cartPage: async ({ page }, use) => {
+        const cartPage = new CartPage(page);
+        await use(cartPage);
     },
 });
 
