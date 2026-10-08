@@ -12,6 +12,7 @@ Playwright + JavaScript test automation portfolio project for [automationexercis
 | Account Deletion | ✅ | — | — |
 | Logout | ✅ | — | — |
 | Products | ✅ | ✅ | — |
+| Cart | ✅ | — | — |
 
 ## What's Covered
 
@@ -22,6 +23,24 @@ Playwright + JavaScript test automation portfolio project for [automationexercis
 - Quantity controls: manual input, ArrowUp / ArrowDown keyboard interaction
 - Product search: valid keyword, no results, case-insensitive, empty keyword, keyword match, navigate from results
 - UI assertions: page title, product card images, names, prices, Add to Cart and View Product buttons, search bar
+
+### Cart
+- Navigate to the cart page
+- Add a single product and multiple products to the cart by name
+- Verify added items show the correct name, price, and quantity
+
+## API Testing
+
+A Postman collection covering products/brands, search, login, and account lifecycle endpoints lives in [`postman/`](postman/). Folders run in numbered order (`01` → `04`) so account creation/deletion happens last and doesn't interfere with the login checks, which depend on an existing account.
+
+Run it with [Newman](https://github.com/postmanlabs/newman):
+
+```bash
+npx newman run "postman/Automation exercise API.postman_collection.json" \
+  --env-var "baseUrl=https://automationexercise.com/api" \
+  --env-var "email=your@email.com" \
+  --env-var "password=yourpassword"
+```
 
 ## Tech Stack
 
