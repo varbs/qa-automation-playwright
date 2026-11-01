@@ -5,7 +5,7 @@ const { productSearchData } = require('../../../test-data/products/productSearch
 const { createTcCounter } = require('../../../utils/testCaseHelper');
 const nextTcId = createTcCounter();
 
-test.describe('Product UI', () => {
+test.describe('Product UI', { tag: '@regression' }, () => {
     test.beforeEach(async ({ homePage, productsPage }) => {
         await homePage.navigateToHomePage();
 

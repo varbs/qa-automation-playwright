@@ -22,11 +22,14 @@ class BasePage {
         await expect(locator).toBeFocused();
     }
 
+    // Uses validity.valueMissing instead of validationMessage,
+    // since the message text differs per browser
+    // (e.g. Chromium "Please fill out this field." vs WebKit "Fill out this field").
     async verifyRequiredField(locator) {
-        const message = await locator.evaluate(
-            element => element.validationMessage
+        const isValueMissing = await locator.evaluate(
+            element => element.validity.valueMissing
         );
-        expect(message).toContain('Please fill');
+        expect(isValueMissing).toBe(true);
     }
 
     async verifyRequiredValidation(locator) {
@@ -41,6 +44,21 @@ class BasePage {
             element => element.validity.typeMismatch
         );
         expect(isTypeMismatch).toBe(true);
+    }
+
+    // WebKit (Safari) skips buttons and links on plain Tab by default;
+    // Alt+Tab moves focus to every focusable element there, but it also
+    // stops on <input type="hidden">, so those are tabbed past.
+    async pressTab() {
+        const browserName = this.page.context().browser().browserType().name();
+        if (browserName !== 'webkit') {
+            await this.page.keyboard.press('Tab');
+            return;
+        }
+
+        do {
+            await this.page.keyboard.press('Alt+Tab');
+        } while (await this.page.evaluate(() => document.activeElement?.type === 'hidden'));
     }
 
     async pause() {

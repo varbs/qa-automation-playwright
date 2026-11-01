@@ -28,8 +28,9 @@ jobs:
           LOGIN_EMAIL: ${{ secrets.LOGIN_EMAIL }}
           LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
 
+      # Chrome and Edge (branded channels) run locally only, to keep CI under the timeout
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test --project='*-chromium' --project='*-firefox' --project='*-webkit'
         env:
           LOGIN_EMAIL: ${{ secrets.LOGIN_EMAIL }}
           LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}

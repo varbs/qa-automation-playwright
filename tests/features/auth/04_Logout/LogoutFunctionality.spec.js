@@ -6,7 +6,7 @@ const { validUser } = loginUsers;
 const { createTcCounter } = require('../../../../utils/testCaseHelper');
 const nextTcId = createTcCounter();
 
-test.describe('Logout Functionality', () => {
+test.describe('Logout Functionality', { tag: '@regression' }, () => {
 
     test.beforeEach(async ({ loginPage }) => {
         await loginPage.login(
@@ -16,10 +16,12 @@ test.describe('Logout Functionality', () => {
         await loginPage.verifyValidLogin();
     });
 
-    test(`TC-LOGOUT-FUNC-${nextTcId()} - Verify user can logout successfully`, async ({ homePage }) => {
-        await homePage.logout();
-        await expect(homePage.loggedInUserLabel).not.toBeVisible();
-    });
+    test(`TC-LOGOUT-FUNC-${nextTcId()} - Verify user can logout successfully`,
+        { tag: '@smoke' },
+        async ({ homePage }) => {
+            await homePage.logout();
+            await expect(homePage.loggedInUserLabel).not.toBeVisible();
+        });
 
     test(`TC-LOGOUT-FUNC-${nextTcId()} - Verify user is redirected to login page after logout`, async ({ homePage }) => {
         await homePage.logout();

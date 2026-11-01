@@ -13,7 +13,7 @@ const { addWhitespace } = require('../../../../utils/stringHelper');
 
 const nextTcId = createTcCounter();
 
-test.describe('Signup - Name Field Validations', () => {
+test.describe('Signup - Name Field Validations', { tag: '@regression' }, () => {
 
     let user;
 
@@ -38,7 +38,7 @@ test.describe('Signup - Name Field Validations', () => {
         });
     });
 
-    test.describe('Whitespace Handling', () => {
+    test.describe('Whitespace Handling', { tag: '@regression' }, () => {
         for (const { scenario, leadingSpaces, trailingSpaces } of whitespaceCases) {
 
             test(`TC-SIGNUP-VAL-${nextTcId()} - Verify user can proceed to account information with name containing ${scenario}`, async ({ signupPage, accountInfoPage }) => {
@@ -59,7 +59,7 @@ test.describe('Signup - Name Field Validations', () => {
     });
 });
 
-test.describe('Signup - Email Field Validations', () => {
+test.describe('Signup - Email Field Validations', { tag: '@regression' }, () => {
 
     let user;
 
@@ -78,7 +78,7 @@ test.describe('Signup - Email Field Validations', () => {
     });
 
     test.describe('Existing Email Validation', () => {
-        test(`TC-SIGNUP-VAL-${nextTcId()} - Verify user cannot proceed to account information with an existing email`, async ({ signupPage }) => {
+        test(`TC-SIGNUP-VAL-${nextTcId()} - Verify user cannot proceed to account information with an existing email`, { tag: '@smoke' }, async ({ signupPage }) => {
             await signupPage.signup(
                 user.name,
                 validUser.email
@@ -87,7 +87,7 @@ test.describe('Signup - Email Field Validations', () => {
         });
     })
 
-    test.describe('Whitespace Handling', () => {
+    test.describe('Whitespace Handling', { tag: '@regression' }, () => {
         for (const { scenario, leadingSpaces, trailingSpaces } of whitespaceCases) {
 
             test(`TC-SIGNUP-VAL-${nextTcId()} - Verify user can proceed to account information with email ${scenario}`, async ({ signupPage, accountInfoPage }) => {
@@ -107,7 +107,7 @@ test.describe('Signup - Email Field Validations', () => {
         }
     });
 
-    test.describe('Email Format Validation', () => {
+    test.describe('Email Format Validation', { tag: '@regression' }, () => {
         for (const { scenario, email, validationType } of signupEmailFormatCases) {
 
             test(`TC-SIGNUP-VAL-${nextTcId()}  - Verify signup behaviour with email ${scenario}`, async ({ signupPage, accountInfoPage }) => {

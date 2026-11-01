@@ -3,7 +3,7 @@ const { createTcCounter } = require('../../../../utils/testCaseHelper');
 
 const nextTcId = createTcCounter();
 
-test.describe('Login UI', () => {
+test.describe('Login UI', { tag: '@regression' }, () => {
     test(`TC-LOGIN-UI-${nextTcId()} - Verify the Login page title is displayed`, async ({ loginPage }) => {
         await expect(loginPage.loginTitle).toBeVisible();
     });
@@ -41,9 +41,11 @@ test.describe('Login UI', () => {
         );
     });
 
-    test(`TC-LOGIN-UI-${nextTcId()} - Verify Login and Signup sections are displayed`, async ({ loginPage }) => {
-        await loginPage.verifyLoginPageLoaded();
-    });
+    test(`TC-LOGIN-UI-${nextTcId()} - Verify Login and Signup sections are displayed`,
+        { tag: '@smoke' },
+        async ({ loginPage }) => {
+            await loginPage.verifyLoginPageLoaded();
+        });
 
     test(`TC-LOGIN-UI-${nextTcId()} - Verify Login button text`, async ({ loginPage }) => {
         await expect(loginPage.loginButton).toHaveText('Login');
@@ -53,7 +55,7 @@ test.describe('Login UI', () => {
         await expect(loginPage.invalidLoginMessage).toBeHidden();
     });
 
-    test(`TC-LOGIN-UI-${nextTcId()} - Verify keyboard focus order`, async ({ loginPage, page }) => {
+    test(`TC-LOGIN-UI-${nextTcId()} - Verify keyboard focus order`, async ({ loginPage }) => {
         await loginPage.verifyLoginPageLoaded();
 
         // Start at the email field
@@ -61,11 +63,11 @@ test.describe('Login UI', () => {
         await expect(loginPage.emailTextbox).toBeFocused();
 
         // Move to password
-        await page.keyboard.press('Tab');
+        await loginPage.pressTab();
         await expect(loginPage.passwordTextbox).toBeFocused();
 
         // Move to login Button
-        await page.keyboard.press('Tab');
+        await loginPage.pressTab();
         await expect(loginPage.loginButton).toBeFocused();
     });
 

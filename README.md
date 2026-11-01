@@ -59,14 +59,14 @@ npx newman run "postman/Automation exercise API.postman_collection.json" \
 
 ## Session Management
 
-Tests are split into two Playwright projects to separate authenticated and unauthenticated contexts.
+Tests are split into logged-out and logged-in projects to separate authenticated and unauthenticated contexts. Each one runs on Chromium, Firefox, WebKit, Microsoft Edge and Google Chrome (e.g. `logged-out-chromium`, `logged-in-edge`). CI runs Chromium, Firefox and WebKit only.
 
 | Project | Test Suites | Auth |
 |---|---|---|
-| `logged-out` | Login, Signup, Account Information, Account Deletion, Logout | Fresh browser |
-| `logged-in` | Products, Cart, Contact Us _(coming soon)_ | Reuses saved session |
+| `logged-out-<browser>` | Login, Signup, Account Information, Account Deletion, Logout | Fresh browser |
+| `logged-in-<browser>` | Products, Cart, Contact Us _(coming soon)_ | Reuses saved session |
 
-A `globalSetup` script runs once before all tests — it logs in and saves the session to `.auth/session.json`. The `logged-in` project loads that file automatically so tests start already authenticated.
+A `globalSetup` script runs once before all tests — it logs in and saves the session to `.auth/session.json`. The `logged-in-*` projects load that file automatically so tests start already authenticated.
 
 ## Getting Started
 
@@ -102,8 +102,11 @@ LOGIN_PASSWORD=yourpassword
 npx playwright test
 
 # Run a specific project
-npx playwright test --project=logged-out
-npx playwright test --project=logged-in
+npx playwright test --project='logged-out-*'
+npx playwright test --project='logged-in-*'
+
+# Run a single browser
+npx playwright test --project='*-firefox'
 
 # Run a specific suite
 npx playwright test tests/features/05_Products/
