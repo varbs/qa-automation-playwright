@@ -1,7 +1,7 @@
 const { expect } = require('@playwright/test');
 const BasePage = require('../BasePage');
 
-class ProductsDetailPage extends BasePage {
+class ProductDetailPage extends BasePage {
     constructor(page) {
         super(page);
 
@@ -94,6 +94,6 @@ class ProductsDetailPage extends BasePage {
 
 }
 
-module.exports = ProductsDetailPage;
+module.exports = ProductDetailPage;
 
 

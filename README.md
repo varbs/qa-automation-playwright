@@ -36,7 +36,7 @@ A Postman collection covering products/brands, search, login, and account lifecy
 Run it with [Newman](https://github.com/postmanlabs/newman):
 
 ```bash
-npx newman run "postman/Automation exercise API.postman_collection.json" \
+npx newman run "postman/automation-exercise-api.postman_collection.json" \
   --env-var "baseUrl=https://automationexercise.com/api" \
   --env-var "email=your@email.com" \
   --env-var "password=yourpassword"

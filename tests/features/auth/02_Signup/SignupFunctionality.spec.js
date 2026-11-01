@@ -1,6 +1,6 @@
 const { test } = require("../../../../fixtures/fixture");
 
-const SUBMIT_METHOD = require('../../../../constants/submitMethods');
+const { SUBMIT_METHODS } = require('../../../../constants/submitMethods');
 
 const { completeSignup } = require('../../../../flows/auth/accountFlows');
 const { generateSignupUser } = require('../../../../utils/generateUser');
@@ -27,7 +27,7 @@ test.describe('Signup Functionality', { tag: '@regression' }, () => {
             accountInfoPage,
             user,
             {
-                submitBy: SUBMIT_METHOD.ENTER
+                submitBy: SUBMIT_METHODS.ENTER
             }
         );
     });

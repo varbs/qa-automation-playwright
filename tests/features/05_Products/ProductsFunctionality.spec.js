@@ -20,76 +20,76 @@ test.describe('Product Functionality', { tag: '@regression' }, () => {
     });
 
     test.describe('Product Detailed Page', () => {
-        test.beforeEach(async ({ productsPage, productsDetailPage }) => {
+        test.beforeEach(async ({ productsPage, productDetailPage }) => {
             // Arrange
             await productsPage.clickProduct();
-            await productsDetailPage.verifyProductDetailPageLoaded();
+            await productDetailPage.verifyProductDetailPageLoaded();
         })
 
-        test(`TC-PROD-FUNC-${nextTcId()} - Verify user can view a product's detailed page`, async ({ productsDetailPage }) => {
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify user can view a product's detailed page`, async ({ productDetailPage }) => {
             // covered by beforeEach
         });
 
-        test(`TC-PROD-FUNC-${nextTcId()} - Verify product detail page displays product name`, async ({ productsDetailPage }) => {
-            await productsDetailPage.verifyProductName();
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify product detail page displays product name`, async ({ productDetailPage }) => {
+            await productDetailPage.verifyProductName();
         });
 
-        test(`TC-PROD-FUNC-${nextTcId()} - Verify product detail page displays product category`, async ({ productsDetailPage }) => {
-            await productsDetailPage.verifyProductCategory();
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify product detail page displays product category`, async ({ productDetailPage }) => {
+            await productDetailPage.verifyProductCategory();
         });
 
-        test(`TC-PROD-FUNC-${nextTcId()} - Verify product detail page displays product price`, async ({ productsDetailPage }) => {
-            await productsDetailPage.verifyProductPrice();
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify product detail page displays product price`, async ({ productDetailPage }) => {
+            await productDetailPage.verifyProductPrice();
         });
 
-        test(`TC-PROD-FUNC-${nextTcId()} - Verify product detail page displays availability status`, async ({ productsDetailPage }) => {
-            await productsDetailPage.verifyProductAvailability();
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify product detail page displays availability status`, async ({ productDetailPage }) => {
+            await productDetailPage.verifyProductAvailability();
         });
 
-        test(`TC-PROD-FUNC-${nextTcId()} - Verify product detail page displays condition`, async ({ productsDetailPage }) => {
-            await productsDetailPage.verifyProductCondition();
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify product detail page displays condition`, async ({ productDetailPage }) => {
+            await productDetailPage.verifyProductCondition();
         });
 
-        test(`TC-PROD-FUNC-${nextTcId()} - Verify product detail page displays brand`, async ({ productsDetailPage }) => {
-            await productsDetailPage.verifyProductBrand();
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify product detail page displays brand`, async ({ productDetailPage }) => {
+            await productDetailPage.verifyProductBrand();
         });
 
-        test(`TC-PROD-FUNC-${nextTcId()} - Verify user can add a product to cart from the product detail page`, async ({ productsDetailPage }) => {
-            await productsDetailPage.addToCart();
-            await productsDetailPage.verifyAddToCartModal();
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify user can add a product to cart from the product detail page`, async ({ productDetailPage }) => {
+            await productDetailPage.addToCart();
+            await productDetailPage.verifyAddToCartModal();
         });
 
         test.describe('Product Quantity Functionality', () => {
             test.describe('Input field', () => {
-                test(`TC-PROD-FUNC-${nextTcId()} - Verify user can input quantity manually before adding to cart`, async ({ productsDetailPage }) => {
-                    await productsDetailPage.setQuantity(3);
-                    await productsDetailPage.addToCart();
+                test(`TC-PROD-FUNC-${nextTcId()} - Verify user can input quantity manually before adding to cart`, async ({ productDetailPage }) => {
+                    await productDetailPage.setQuantity(3);
+                    await productDetailPage.addToCart();
 
-                    await productsDetailPage.verifyQuantity(3);
+                    await productDetailPage.verifyQuantity(3);
                 });
             });
 
             test.describe('Keyboard Interaction', () => {
-                test(`TC-PROD-FUNC-${nextTcId()} - Verify user can increase quantity using ArrowUp key`, async ({ productsDetailPage }) => {
+                test(`TC-PROD-FUNC-${nextTcId()} - Verify user can increase quantity using ArrowUp key`, async ({ productDetailPage }) => {
                     // Arrange — set the starting quantity to 1
-                    await productsDetailPage.setQuantity(1);
+                    await productDetailPage.setQuantity(1);
 
                     // Act — increment quantity from 1 to 3 using the ArrowUp key
                     // Press ArrowUp twice: 1 → 2 → 3
-                    await productsDetailPage.incrementQuantity(2);
-                    await productsDetailPage.addToCart();
+                    await productDetailPage.incrementQuantity(2);
+                    await productDetailPage.addToCart();
 
                     // Assert - verify the quantity is 3
-                    await productsDetailPage.verifyQuantity(3);
+                    await productDetailPage.verifyQuantity(3);
                 });
 
-                test(`TC-PROD-FUNC-${nextTcId()} - Verify user can decrease quantity using ArrowDown key`, async ({ productsDetailPage }) => {
-                    await productsDetailPage.setQuantity(3);
+                test(`TC-PROD-FUNC-${nextTcId()} - Verify user can decrease quantity using ArrowDown key`, async ({ productDetailPage }) => {
+                    await productDetailPage.setQuantity(3);
 
-                    await productsDetailPage.decrementQuantity(1);
-                    await productsDetailPage.addToCart();
+                    await productDetailPage.decrementQuantity(1);
+                    await productDetailPage.addToCart();
 
-                    await productsDetailPage.verifyQuantity(2);
+                    await productDetailPage.verifyQuantity(2);
                 })
             });
         })
@@ -130,12 +130,12 @@ test.describe('Product Functionality', { tag: '@regression' }, () => {
             await productsPage.verifySearchResultsMatchKeyword(productSearchData.validKeyword);
         });
 
-        test(`TC-PROD-FUNC-${nextTcId()} - Verify user can view a product from search results`, async ({ productsPage, productsDetailPage }) => {
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify user can view a product from search results`, async ({ productsPage, productDetailPage }) => {
             await productsPage.searchProduct(productSearchData.validKeyword);
             await productsPage.verifySearchResultsVisible();
 
             await productsPage.clickProduct();
-            await productsDetailPage.verifyProductDetailPageLoaded();
+            await productDetailPage.verifyProductDetailPageLoaded();
         });
     });
 });

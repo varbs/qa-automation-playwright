@@ -1,6 +1,6 @@
-const SUBMIT_METHOD = {
+const SUBMIT_METHODS = {
     BUTTON: 'button',
     ENTER: 'enter',
 };
 
-module.exports =  SUBMIT_METHOD ;
+module.exports = { SUBMIT_METHODS };
