@@ -7,7 +7,7 @@ const { generateSignupUser } = require('../../../../../utils/generateUser');
 const { createTcCounter } = require('../../../../../utils/testCaseHelper');
 const nextTcId = createTcCounter();
 
-test.describe('Account Information Required Validation', () => {
+test.describe('Account Information Required Validation', { tag: '@regression' }, () => {
 
     let user;
 

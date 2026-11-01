@@ -6,7 +6,7 @@ const { generateSignupUser } = require('../../../../../utils/generateUser');
 const { createTcCounter } = require('../../../../../utils/testCaseHelper');
 const nextTcId = createTcCounter();
 
-test.describe('Account Information UI', () => {
+test.describe('Account Information UI', { tag: '@regression' }, () => {
     let user;
 
     test.beforeEach(async ({ signupPage, accountInfoPage }) => {

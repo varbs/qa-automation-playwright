@@ -10,16 +10,17 @@ const nextTcId = createTcCounter();
 
 test.describe('Login Functionality', () => {
 
-    test(`TC-LOGIN-FUNC-${nextTcId()} - Verify user can login successfully with valid registered credentials`, async ({ loginPage }) => {
-        await loginPage.login(
-            validUser.email,
-            validUser.password
-        );
-        await loginPage.verifyValidLogin();
-    });
+    test(`TC-LOGIN-FUNC-${nextTcId()} - Verify user can login successfully with valid registered credentials`,
+        { tag: ['@smoke', '@regression'] },
+        async ({ loginPage }) => {
+            await loginPage.login(
+                validUser.email,
+                validUser.password
+            );
+            await loginPage.verifyValidLogin();
+        });
 
-    test.describe('Authenticated user', () => {
-
+    test.describe('Authenticated user', { tag: '@regression'}, () => {
         test.beforeEach(async ({ loginPage }) => {
             await loginPage.login(
                 validUser.email,
@@ -50,4 +51,3 @@ test.describe('Login Functionality', () => {
         });
     });
 });
-    // TC-LOGIN-FUNC-004 - Verify user session persists across internal page navigation

@@ -6,7 +6,7 @@ const { createTcCounter } = require('../../../../utils/testCaseHelper');
 
 const nextTcId = createTcCounter();
 
-test.describe('Account Deletion Functionality', () => {
+test.describe('Account Deletion Functionality', { tag: '@regression' }, () => {
     let user;
 
     test.beforeEach(async ({ homePage, signupPage, accountInfoPage }) => {

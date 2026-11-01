@@ -15,7 +15,7 @@ const { addWhitespace } = require('../../../../utils/stringHelper');
 
 const nextTcId = createTcCounter();
 
-test.describe('Login - Invalid Credentials', () => {
+test.describe('Login - Invalid Credentials', { tag: '@regression' },() => {
     test(`TC-LOGIN-VAL-${nextTcId()} - Verify login fails with non-existing account credentials`, async ({ loginPage }) => {
         const { email, password }  = generateNonExistingUser();
         await loginPage.login(
@@ -34,7 +34,7 @@ test.describe('Login - Invalid Credentials', () => {
         await loginPage.verifyInvalidLogin();
     });
 
-    test(`TC-LOGIN-VAL-${nextTcId()} - Verify login fails with an incorrect password`, async ({ loginPage }) => {
+    test(`TC-LOGIN-VAL-${nextTcId()} - Verify login fails with an incorrect password`, { tag: '@smoke' }, async ({ loginPage }) => {
         await loginPage.login(
             validUser.email,
             incorrectPassword.password
@@ -43,7 +43,7 @@ test.describe('Login - Invalid Credentials', () => {
     });
 });
 
-test.describe('Login - Required Field Validation', () => {
+test.describe('Login - Required Field Validation', { tag: '@regression' }, () => {
 
     test(`TC-LOGIN-VAL-${nextTcId()} - Verify login is blocked when both email and password are empty`, async ({ loginPage }) => {
         await loginPage.login(
@@ -70,7 +70,7 @@ test.describe('Login - Required Field Validation', () => {
     });
 });
 
-test.describe('Login - Email Whitespace Handling', () => {
+test.describe('Login - Email Whitespace Handling', { tag: '@regression' }, () => {
     for (const{ scenario, leadingSpaces, trailingSpaces } of whitespaceCases) {
 
         test(`TC-LOGIN-VAL-${nextTcId()}- Verify login succeeds with email containing ${scenario}`, async ({ loginPage }) => {
@@ -90,7 +90,7 @@ test.describe('Login - Email Whitespace Handling', () => {
     }
 });
 
-test.describe('Login - Email Format Validation', () => {
+test.describe('Login - Email Format Validation', { tag: '@regression' }, () => {
     for (const{ scenario, email, validationType } of loginEmailFormatCases) {
 
         test(`TC-LOGIN-VAL-${nextTcId()}- Verify login is blocked with ${scenario}`, async ({ loginPage }) => {
@@ -116,7 +116,7 @@ test.describe('Login - Email Format Validation', () => {
     }
 });
 
-test.describe('Login - Email Case Validation', () => {
+test.describe('Login - Email Case Validation', { tag: '@regression' }, () => {
     for (const { scenario, email } of emailCaseValidation) {
 
         test(`TC-LOGIN-VAL-${nextTcId()}- Verify login is blocked with email ${scenario}`, async ({ loginPage }) => {

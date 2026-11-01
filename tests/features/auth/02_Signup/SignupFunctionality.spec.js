@@ -8,15 +8,17 @@ const { createTcCounter } = require('../../../../utils/testCaseHelper');
 
 const nextTcId = createTcCounter();
 
-test.describe('Signup Functionality', () => {
+test.describe('Signup Functionality', { tag: '@regression' }, () => {
 
-    test(`TC-SIGNUP-FUNC-${nextTcId()} - Verify user can sign up with valid credentials`, async ({ signupPage, accountInfoPage }) => {
-        const user = generateSignupUser();
-        await completeSignup(
-            signupPage,
-            accountInfoPage,
-            user);
-    });
+    test(`TC-SIGNUP-FUNC-${nextTcId()} - Verify user can sign up with valid credentials`,
+        { tag: '@smoke' },
+        async ({ signupPage, accountInfoPage }) => {
+            const user = generateSignupUser();
+            await completeSignup(
+                signupPage,
+                accountInfoPage,
+                user);
+        });
 
     test(`TC-SIGNUP-FUNC-${nextTcId()} - Verify signup form submits successfully using the Enter key`, async ({ signupPage, accountInfoPage }) => {
         const user = generateSignupUser();

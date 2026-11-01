@@ -3,7 +3,7 @@ const { createTcCounter } = require('../../../../utils/testCaseHelper');
 
 const nextTcId = createTcCounter();
 
-test.describe('Signup UI', () => {
+test.describe('Signup UI', { tag: '@regression' }, () => {
     test(`TC-SIGNUP-UI-${nextTcId()} - Verify the signup page heading is displayed`, async ({ signupPage }) => {
         await expect(signupPage.signupHeading).toBeVisible();
     });
@@ -42,7 +42,7 @@ test.describe('Signup UI', () => {
         await expect(signupPage.errorMessage).toBeHidden();
     });
 
-    test(`TC-SIGNUP-UI-${nextTcId()} - Verify keyboard focus order`, async ({ signupPage, page }) => {
+    test(`TC-SIGNUP-UI-${nextTcId()} - Verify keyboard focus order`, async ({ signupPage }) => {
         await signupPage.verifySignupPageLoaded();
 
         // Start at the name field
@@ -50,11 +50,11 @@ test.describe('Signup UI', () => {
         await expect(signupPage.nameTextbox).toBeFocused();
 
         // Move to email
-        await page.keyboard.press('Tab');
+        await signupPage.pressTab();
         await expect(signupPage.emailTextbox).toBeFocused();
 
         // Move to signup Button
-        await page.keyboard.press('Tab');
+        await signupPage.pressTab();
         await expect(signupPage.signupButton).toBeFocused();
     });
 

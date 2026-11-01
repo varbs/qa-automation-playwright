@@ -5,10 +5,9 @@ const { productSearchData } = require('../../../test-data/products/productSearch
 const { createTcCounter } = require('../../../utils/testCaseHelper');
 const nextTcId = createTcCounter();
 
-test.describe('Product Functionality', () => {
+test.describe('Product Functionality', { tag: '@regression' }, () => {
     test.beforeEach(async ({ homePage, productsPage }) => {
         await homePage.navigateToHomePage();
-
         await productsPage.navigateToProducts();
     });
 
@@ -96,23 +95,27 @@ test.describe('Product Functionality', () => {
         })
     });
 
-    test(`TC-PROD-FUNC-${nextTcId()} - Verify user can add a product to cart from the Products page`, async ({ productsPage }) => {
-        await productsPage.addToCartFromList();
-        await productsPage.verifyAddToCartModalVisible();
-    });
+    test(`TC-PROD-FUNC-${nextTcId()} - Verify user can add a product to cart from the Products page`,
+        { tag: '@smoke' },
+        async ({ productsPage }) => {
+            await productsPage.addToCartFromList();
+            await productsPage.verifyAddToCartModalVisible();
+        });
 
     test.describe('Product Search Functionality', () => {
-        test(`TC-PROD-FUNC-${nextTcId()} - Verify user can search an existing product by name`, async ({ productsPage }) => {
-            await productsPage.searchProduct(productSearchData.validKeyword);
-            await productsPage.verifySearchResultsVisible();
-        });
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify user can search an existing product by name`,
+            { tag: '@smoke' },
+            async ({ productsPage }) => {
+                await productsPage.searchProduct(productSearchData.validKeyword);
+                await productsPage.verifySearchResultsVisible();
+            });
 
         test(`TC-PROD-FUNC-${nextTcId()} - Verify user receives no results when searching for a non-existent product by name`, async ({ productsPage }) => {
             await productsPage.searchProduct(productSearchData.noResultsKeyword);
             await productsPage.verifyNoSearchResultFound();
         });
 
-        test(`TC-PROD-FUNC-${nextTcId()} - Verify search is case-insensitive`, async({ productsPage }) => {
+        test(`TC-PROD-FUNC-${nextTcId()} - Verify search is case-insensitive`, async ({ productsPage }) => {
             await productsPage.searchProduct(productSearchData.caseInsensitiveKeyword);
             await productsPage.verifySearchResultsVisible();
         });
