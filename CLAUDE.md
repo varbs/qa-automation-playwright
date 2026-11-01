@@ -22,7 +22,7 @@ npx playwright show-report                   # or: npm run test:report
 
 API collection (Newman):
 ```bash
-npx newman run "postman/Automation exercise API.postman_collection.json" \
+npx newman run "postman/automation-exercise-api.postman_collection.json" \
   --env-var "baseUrl=https://automationexercise.com/api" \
   --env-var "email=..." --env-var "password=..."
 ```
@@ -56,7 +56,7 @@ A new page object must be registered here before tests can use it.
 **Test data**:
 - `test-data/` holds static and data-driven case tables. Specs loop over them with `for...of` to generate tests.
 - `utils/generateUser.js` builds unique Faker/uuid users for signup.
-- `constants/` holds enums such as `VALIDATION_TYPES` and `SUBMIT_METHOD`.
+- `constants/` holds enums such as `VALIDATION_TYPES` and `SUBMIT_METHODS`.
 
 **Test ID convention**: test titles start with `TC-<AREA>-<TYPE>-NNN` (e.g. `TC-LOGIN-VAL-003`, `TC-CART-FUNC-001`), numbered by `createTcCounter()` from `utils/testCaseHelper.js`. Each spec file creates its own counter at module level. IDs therefore depend on declaration order: inserting a test renumbers every test after it.
 

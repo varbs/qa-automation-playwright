@@ -3,8 +3,8 @@ const { test } = require("../../../../../fixtures/fixture");
 const { SIGNUP_TITLE } = require('../../../../../constants/signupTitle');
 
 const { accountPreferenceCases } = require('../../../../../test-data/auth/signup/accountPreferenceCases');
-const { signupUser, getRequiredFields } = require('../../../../../test-data/auth/signup/signupUsers');
-const { updatedUser } = signupUser;
+const { signupUsers, getRequiredFields } = require('../../../../../test-data/auth/signup/signupUsers');
+const { updatedUser } = signupUsers;
 
 const { generateSignupUser } = require('../../../../../utils/generateUser');
 

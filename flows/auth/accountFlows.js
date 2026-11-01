@@ -1,5 +1,5 @@
 const { SIGNUP_TITLE } = require('../../constants/signupTitle');
-const SUBMIT_METHOD = require('../../constants/submitMethods');
+const { SUBMIT_METHODS } = require('../../constants/submitMethods');
 
 const { signupCountries } = require('../../test-data/auth/signup/signupCountries');
 const { signupBirthDates } = require('../../test-data/auth/signup/signupBirthDates');
@@ -12,7 +12,7 @@ async function completeSignup(
     accountInfoPage,
     user,
     {
-    submitBy = SUBMIT_METHOD.BUTTON,
+    submitBy = SUBMIT_METHODS.BUTTON,
     country = signupCountries.canada,
     title = SIGNUP_TITLE.MR,
     birthDate = valid

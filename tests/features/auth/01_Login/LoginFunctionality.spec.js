@@ -1,6 +1,6 @@
 const { test } = require('../../../../fixtures/fixture');
 
-const SUBMIT_METHOD = require('../../../../constants/submitMethods');
+const { SUBMIT_METHODS } = require('../../../../constants/submitMethods');
 
 const { loginUsers } = require('../../../../test-data/auth/login/loginUsers');
 const { validUser } = loginUsers;
@@ -35,7 +35,7 @@ test.describe('Login Functionality', () => {
             await loginPage.login(
                 validUser.email,
                 validUser.password,
-                SUBMIT_METHOD.ENTER
+                SUBMIT_METHODS.ENTER
             );
             await loginPage.verifyValidLogin();
         });

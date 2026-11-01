@@ -1,6 +1,6 @@
 const { expect } = require("@playwright/test");
 const BasePage = require("../BasePage");
-const SUBMIT_METHOD = require('../../constants/submitMethods');
+const { SUBMIT_METHODS } = require('../../constants/submitMethods');
 
 
 class SignupPage extends BasePage {
@@ -32,16 +32,16 @@ class SignupPage extends BasePage {
     await this.signupButton.click();
   }
 
-  async signup(name, email, submitBy = SUBMIT_METHOD.BUTTON) {
+  async signup(name, email, submitBy = SUBMIT_METHODS.BUTTON) {
     await this.enterName(name);
     await this.enterEmail(email);
 
      switch (submitBy) {
-            case SUBMIT_METHOD.BUTTON: {
+            case SUBMIT_METHODS.BUTTON: {
                 await this.signupClick();
                 break;
             }
-            case SUBMIT_METHOD.ENTER: {
+            case SUBMIT_METHODS.ENTER: {
                 await this.page.keyboard.press('Enter');
                 break;
             }

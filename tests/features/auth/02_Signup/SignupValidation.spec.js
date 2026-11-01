@@ -4,8 +4,8 @@ const { VALIDATION_TYPES } = require('../../../../constants/validationTypes');
 const { whitespaceCases } = require('../../../../test-data/common/whitespaceCases');
 const { signupEmailFormatCases } = require('../../../../test-data/auth/signup/signupEmailFormatCases');
 
-const { signupUser } = require('../../../../test-data/auth/signup/signupUsers');
-const { validUser, emptyCredentials } = signupUser;
+const { signupUsers } = require('../../../../test-data/auth/signup/signupUsers');
+const { validUser, emptyCredentials } = signupUsers;
 
 const { generateSignupUser } = require('../../../../utils/generateUser');
 const { createTcCounter } = require('../../../../utils/testCaseHelper');

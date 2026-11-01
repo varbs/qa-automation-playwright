@@ -1,6 +1,6 @@
 const { signupCountries } = require('./signupCountries');
 
-const signupUser = {
+const signupUsers = {
     validUser: {
         email: process.env.LOGIN_EMAIL
     },
@@ -28,4 +28,4 @@ const getRequiredFields = (user) => ({
 });
 
 
-module.exports = { signupUser, getRequiredFields };
+module.exports = { signupUsers, getRequiredFields };
