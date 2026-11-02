@@ -9,7 +9,9 @@
     "test:report": "playwright show-report",
     "test:smoke": "playwright test --grep @smoke",
     "test:regression": "playwright test --grep @regression",
-    "test:smoke:chromium": "playwright test --grep @smoke --project=logged-out-chromium --project=logged-in-chromium"
+    "test:smoke:chromium": "playwright test --grep @smoke --project=logged-out-chromium --project=logged-in-chromium",
+    "test:api": "playwright test --config=playwright.api.config.js",
+    "test:api:report": "playwright show-report playwright-report-api"
   },
   "keywords": [],
   "author": "",

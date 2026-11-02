@@ -41,3 +41,29 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+  # API tests only send HTTP requests, so they need no browsers or login secrets
+  # and run in parallel with the UI job.
+  api-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run API tests
+        run: npm run test:api
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report-api
+          path: playwright-report-api/
+          retention-days: 30
