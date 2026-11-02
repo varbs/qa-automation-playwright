@@ -47,7 +47,12 @@ Playwright + JavaScript test automation portfolio project for [automationexercis
   - a search request without a search term is refused
 
 ### Account API
-- Full account lifecycle in one test: create → read back by email → log in → update → confirm the update → delete → confirm login now fails
+- Full account lifecycle in one test:
+  1. create with `POST /api/createAccount`
+  2. read back with `GET /api/getUserDetailByEmail`
+  3. log in with `POST /api/verifyLogin`
+  4. update with `PUT /api/updateAccount`, then confirm the change
+  5. delete with `DELETE /api/deleteAccount`, then confirm login now fails
 - A newly created account can log in
 - Validation:
   - login without an email, or with invalid details, is refused
