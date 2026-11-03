@@ -19,7 +19,7 @@ class AccountApi {
         return readResponse(await this.request.post(this.createUrl, { form: user }));
     }
 
-    async getAccountByEmail(email) {
+    async getAccountByEmail({ email }) {
         return readResponse(await this.request.get(this.getByEmailUrl, { params: { email } }));
     }
 

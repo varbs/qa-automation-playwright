@@ -18,10 +18,10 @@ Playwright + JavaScript test automation portfolio project for [automationexercis
 
 ### API (Playwright)
 
-| Suite | Functionality |
-|---|---|
-| Products | ✅ |
-| Account | _coming soon_ |
+| Suite | Functionality | Validation |
+|---|---|---|
+| Products | ✅ | ✅ |
+| Account | ✅ | ✅ |
 
 ## What's Covered
 
@@ -42,6 +42,24 @@ Playwright + JavaScript test automation portfolio project for [automationexercis
 - `GET /api/productsList` returns a list of products, and each product has an id, name and price
 - `GET /api/brandsList` returns a list of brands
 - `POST /api/searchProduct` returns products matching the search term
+- Validation:
+  - `POST /api/productsList` and `PUT /api/brandsList` are rejected as unsupported methods
+  - a search request without a search term is refused
+
+### Account API
+- Full account lifecycle in one test:
+  1. create with `POST /api/createAccount`
+  2. read back with `GET /api/getUserDetailByEmail`
+  3. log in with `POST /api/verifyLogin`
+  4. update with `PUT /api/updateAccount`, then confirm the change
+  5. delete with `DELETE /api/deleteAccount`, then confirm login now fails
+- A newly created account can log in
+- Validation:
+  - login without an email, or with invalid details, is refused
+  - `DELETE /api/verifyLogin` is rejected as an unsupported method
+  - updating an account that doesn't exist is refused
+  - creating an account with an email that's already registered is refused
+  - creating an account without a name, email or password is refused
 
 ## Cross-Browser Testing
 
@@ -140,7 +158,7 @@ Local runs retry a failed test once, and CI retries twice. The live site sometim
 
 ### Running API Tests
 
-The Playwright API tests have their own config and report. They don't need browsers or login credentials.
+The Playwright API tests have their own config and report. They don't need browsers or login credentials. The account tests create throwaway accounts and delete them afterwards.
 
 ```bash
 npm run test:api
