@@ -12,6 +12,9 @@ class ProductsPage extends BasePage {
 
         this.addToCartModal = this.page.locator('#cartModal');
         this.addToCartModalTitle = this.addToCartModal.getByText('Added!');
+        this.addToCartModalMessage = this.addToCartModal.getByText('Your product has been added to cart.');
+        this.modalViewCartLink = this.addToCartModal.getByRole('link', { name: 'View Cart' });
+        this.modalContinueShoppingButton = this.addToCartModal.getByRole('button', { name: 'Continue Shopping' });
 
         this.searchInput = this.page.getByRole('textbox', { name: 'Search Product' });
         this.searchButton = this.page.locator('#submit_search');
@@ -46,13 +49,6 @@ class ProductsPage extends BasePage {
 
         await product.hover();
         await product.getByText('View Product').click();
-    }
-
-    async addToCartFromList(index = 0) {
-        const product = this.getProductCard(index);
-
-        await product.hover();
-        await product.locator('.add-to-cart').first().click();
     }
 
     async verifyAddToCartModalVisible() {
@@ -175,19 +171,53 @@ class ProductsPage extends BasePage {
         return productPrice.trim();
     }
 
-    async addProductToCartByName(productName) {
-        // Find the product card that contains the specified product name
+    // Opens the Products page by URL. Used by guest-session tests, where the
+    // Home page's "Logged in as" check in navigateToHomePage() would fail.
+    async openProductsPage() {
+        await this.page.goto('/products');
+        await this.verifyProductsPageLoaded();
+    }
+
+    // Clicks Add to cart on the named product and leaves the confirmation modal open
+    async clickAddToCartByName(productName) {
         const productCard = this.getProductCardByName(productName);
 
-        // Wait until the matching product card is visible
         await productCard.waitFor({ state: 'visible' });
         await productCard.hover();
-        await productCard.locator('.add-to-cart').first().click();
+        // Each card has two Add to cart links (static + hover overlay); target the static one
+        await productCard.locator('.productinfo .add-to-cart').click();
 
-        // Wait for the "Added to cart" confirmation modal to appear
         await this.addToCartModal.waitFor({ state: 'visible' });
-        await this.page.locator('#cartModal .btn-success').click();
-        await this.addToCartModal.waitFor({ state: 'hidden' });
+    }
+
+    async continueShopping() {
+        await this.modalContinueShoppingButton.click();
+        await expect(this.addToCartModal).toBeHidden();
+    }
+
+    async viewCartFromModal() {
+        await this.modalViewCartLink.click();
+    }
+
+    async viewProductByName(productName) {
+        const productCard = this.getProductCardByName(productName);
+        await productCard.getByRole('link', { name: 'View Product' }).click();
+    }
+
+    async addProductToCartByName(productName) {
+        await this.clickAddToCartByName(productName);
+        await this.continueShopping();
+    }
+
+    async verifyAddToCartModalContent() {
+        await this.verifyAddToCartModalVisible();
+        await expect(this.addToCartModalMessage).toBeVisible();
+        await expect(this.modalViewCartLink).toBeVisible();
+        await expect(this.modalContinueShoppingButton).toBeVisible();
+    }
+
+    async verifyAddToCartModalClosed() {
+        await expect(this.addToCartModal).toBeHidden();
     }
 };
 

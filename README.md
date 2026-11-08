@@ -28,15 +28,23 @@ Playwright + JavaScript test automation portfolio project for [automationexercis
 ### Products
 - Product listing page navigation and visibility
 - Product detail page: name, category, price, availability, condition, brand
-- Add to cart from product list and product detail page
-- Quantity controls: manual input, ArrowUp / ArrowDown keyboard interaction
+- Quantity controls: manual input, ArrowUp / ArrowDown keyboard interaction (adding to cart is covered under Add to Cart below)
 - Product search: valid keyword, no results, case-insensitive, empty keyword, keyword match, navigate from results
 - UI assertions: page title, product card images, names, prices, Add to Cart and View Product buttons, search bar
 
 ### Cart
-- Navigate to the cart page
-- Add a single product and multiple products to the cart by name
-- _Temporarily disabled:_ checks that added items show the correct name, price and quantity. All browsers share one account, and its cart is stored on the server, so these checks clash when the browsers run in parallel.
+- Navigate to the cart page as the logged-in user
+
+### Add to Cart (guest session)
+`AddToCartFunctionality.spec.js` runs as a guest (`test.use({ storageState: { cookies: [], origins: [] } })`). The site keeps a guest cart per browser session, so each test starts with its own empty cart. The logged-in account's cart is stored on the server and shared by every browser project, so add-to-cart checks run there would clash when the browsers run in parallel.
+- A new session starts with an empty cart ("Cart is empty!")
+- "Added!" confirmation modal: message, View Cart link, Continue Shopping button
+- Continue Shopping closes the modal and stays on Products; View Cart opens the cart
+- Added product shows the correct name, price, quantity and line total
+- Several different products appear as separate rows
+- Adding the same product again increases its quantity in one row (total = price × quantity)
+- Cart contents persist after a page reload
+- Add from the Product Detail page with quantity 1 and 3
 
 ### Products API
 - `GET /api/productsList` returns a list of products, and each product has an id, name and price

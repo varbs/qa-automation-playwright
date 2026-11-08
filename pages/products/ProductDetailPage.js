@@ -16,6 +16,7 @@ class ProductDetailPage extends BasePage {
         this.addToCartButton = this.productInformation.getByRole('button', { name: 'Add to cart' });
         this.addToCartModal = this.page.locator('.modal-content');
         this.addToCardModalTitle = this.addToCartModal.getByText('Added!');
+        this.modalViewCartLink = this.addToCartModal.getByRole('link', { name: 'View Cart' });
 
         this.quantityInput = this.productInformation.getByRole('spinbutton');
     }
@@ -90,6 +91,14 @@ class ProductDetailPage extends BasePage {
     async verifyAddToCartModal() {
         await expect(this.addToCartModal).toBeVisible();
         await expect(this.addToCardModalTitle).toBeVisible();
+    }
+
+    async getProductPriceText() {
+        return (await this.productPrice.innerText()).trim();
+    }
+
+    async viewCartFromModal() {
+        await this.modalViewCartLink.click();
     }
 
 }
