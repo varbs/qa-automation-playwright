@@ -54,16 +54,13 @@ test.describe('Product Functionality', { tag: '@regression' }, () => {
             await productDetailPage.verifyProductBrand();
         });
 
-        test(`TC-PROD-FUNC-${nextTcId()} - Verify user can add a product to cart from the product detail page`, async ({ productDetailPage }) => {
-            await productDetailPage.addToCart();
-            await productDetailPage.verifyAddToCartModal();
-        });
-
+        // Adding to cart is covered in 06_Cart/AddToCartFunctionality.spec.js (guest sessions).
+        // The quantity tests below only check the input, so they don't click Add to cart:
+        // that would add items to the shared logged-in account's cart.
         test.describe('Product Quantity Functionality', () => {
             test.describe('Input field', () => {
-                test(`TC-PROD-FUNC-${nextTcId()} - Verify user can input quantity manually before adding to cart`, async ({ productDetailPage }) => {
+                test(`TC-PROD-FUNC-${nextTcId()} - Verify user can input quantity manually`, async ({ productDetailPage }) => {
                     await productDetailPage.setQuantity(3);
-                    await productDetailPage.addToCart();
 
                     await productDetailPage.verifyQuantity(3);
                 });
@@ -77,7 +74,6 @@ test.describe('Product Functionality', { tag: '@regression' }, () => {
                     // Act — increment quantity from 1 to 3 using the ArrowUp key
                     // Press ArrowUp twice: 1 → 2 → 3
                     await productDetailPage.incrementQuantity(2);
-                    await productDetailPage.addToCart();
 
                     // Assert - verify the quantity is 3
                     await productDetailPage.verifyQuantity(3);
@@ -87,20 +83,12 @@ test.describe('Product Functionality', { tag: '@regression' }, () => {
                     await productDetailPage.setQuantity(3);
 
                     await productDetailPage.decrementQuantity(1);
-                    await productDetailPage.addToCart();
 
                     await productDetailPage.verifyQuantity(2);
                 })
             });
         })
     });
-
-    test(`TC-PROD-FUNC-${nextTcId()} - Verify user can add a product to cart from the Products page`,
-        { tag: '@smoke' },
-        async ({ productsPage }) => {
-            await productsPage.addToCartFromList();
-            await productsPage.verifyAddToCartModalVisible();
-        });
 
     test.describe('Product Search Functionality', () => {
         test(`TC-PROD-FUNC-${nextTcId()} - Verify user can search an existing product by name`,

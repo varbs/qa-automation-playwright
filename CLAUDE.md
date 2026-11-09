@@ -40,7 +40,7 @@ There is no linter or formatter configured.
 - `logged-out-*` matches `**/01_Login/**`, `**/02_Signup/**`, `**/03_AccountDeletion/**` and `**/04_Logout/**`. Each test starts in a fresh browser.
 - `logged-in-*` matches `**/05_Products/**`, `**/06_Cart/**` and `**/07_ContactUs/**`. These tests load `storageState: .auth/session.json`.
 
-The session file is saved once (from Chromium) and reused by all three browsers. All logged-in projects share one account, and its cart is stored on the server. When projects run in parallel, tests that add to or clear the cart can interfere with each other across browsers and across spec files.
+The session file is saved once (from Chromium) and reused by all three browsers. All logged-in projects share one account, and its cart is stored on the server. When projects run in parallel, tests that add to or clear the cart can interfere with each other across browsers and across spec files. `06_Cart/AddToCartFunctionality.spec.js` avoids this by overriding `storageState` to empty: it runs as a guest, and the site keeps a separate guest cart per browser session.
 
 A new suite folder must match one of these `testMatch` globs or it will not run. The numeric prefix decides which project it belongs to.
 

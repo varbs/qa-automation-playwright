@@ -12,32 +12,43 @@ class CartPage extends BasePage {
         // represents the individual product rows
         this.cartRows = this.cartItemsSection.locator('#cart_info_table tbody tr');
 
-        this.cartProductNames = this.cartItemsSection.locator('.cart_description a');
-        this.cartProductPrice = this.cartItemsSection.locator('.cart_price p');
-        this.cartProductQuantity = this.cartItemsSection.locator('.cart_quantity button');
-        this.deleteButtons = this.cartItemsSection.locator('.cart_quantity_delete');
+        // Shown only when the cart has no products
+        this.emptyCartMessage = this.cartItemsSection.locator('#empty_cart');
+    }
+
+    // Cart row whose product name link matches exactly (the image link in the row has no name)
+    getCartRowByName(productName) {
+        return this.cartRows.filter({
+            has: this.page.getByRole('link', { name: productName, exact: true })
+        });
+    }
+
+    // Checks the cart row for a product; pass only the fields you want to check.
+    // toHaveText retries, so this also waits for the row to render.
+    async verifyCartProduct(productName, { price, quantity, total } = {}) {
+        const row = this.getCartRowByName(productName);
+        await expect(row).toHaveCount(1);
+
+        if (price !== undefined) {
+            await expect(row.locator('.cart_price')).toHaveText(price);
+        }
+        if (quantity !== undefined) {
+            await expect(row.locator('.cart_quantity')).toHaveText(String(quantity));
+        }
+        if (total !== undefined) {
+            await expect(row.locator('.cart_total')).toHaveText(total);
+        }
+    }
+
+    async verifyCartIsEmpty() {
+        await expect(this.cartRows).toHaveCount(0);
+        await expect(this.emptyCartMessage).toBeVisible();
+        await expect(this.emptyCartMessage).toContainText('Cart is empty!');
     }
 
     async navigateToCart() {
         await this.cartButton.click();
         await this.verifyCartPageLoaded();
-    }
-
-    async clearCart() {
-        await this.navigateToCart();
-        await this.page.waitForLoadState('networkidle');
-
-        let count = await this.deleteButtons.count();
-
-        while (count > 0) {
-            const firstButton = this.deleteButtons.first();
-            await firstButton.scrollIntoViewIfNeeded();
-            await firstButton.click({ force: true }); // ← force bypasses overlay/ad blocks
-            await expect(this.cartRows).toHaveCount(count - 1, { timeout: 10000 });
-            count = await this.deleteButtons.count();
-        }
-
-        await expect(this.cartRows).toHaveCount(0, { timeout: 10000 });
     }
 
     async verifyCartPageLoaded() {
@@ -49,67 +60,6 @@ class CartPage extends BasePage {
     // Verify that the cart contains the expected number of items
     async verifyCartItemCount(expectedCount) {
         await expect(this.cartRows).toHaveCount(expectedCount);
-    }
-
-    async verifyCartProductName(expectedName) {
-        // Get the number of product names currently displayed in the cart
-        const count = await this.cartProductNames.count();
-
-        // Create an array to store the actual product names from the cart
-        const productNames = [];
-
-        // Loop through each product in the cart
-        for (let i = 0; i < count; i++) {
-            // Get the product name text and remove any extra whitespace
-            const productName = await this.cartProductNames.nth(i).textContent();
-            productNames.push(productName.trim());
-        }
-
-        // Verify that the expected product name exists in the cart
-        expect(productNames).toContain(expectedName.trim());
-    }
-
-    async verifyCartProductPrice(expectedName, expectedPrice) {
-        const count = await this.cartRows.count();
-
-        for (let i = 0; i < count; i++) {
-            const productName = await this.cartProductNames.nth(i).textContent();
-
-            // Check if the current product matches the expected product name
-            if (productName.trim() === expectedName.trim()) {
-                // Get the price of the matching product
-                const productPrice = await this.cartProductPrice.nth(i).textContent();
-
-                // Verify that the product price matches the expected price
-                expect(productPrice.trim()).toBe(expectedPrice.trim());
-
-                // Stop the method after finding and verifying the product
-                return;
-            }
-        }
-
-        // Throw an error if the expected product was not found in the cart
-        throw new Error(`Product "${expectedName}" not found in the cart`);
-    }
-
-    async verifyCartProductQuantity(expectedName, expectedQuantity) {
-        const rows = await this.cartRows.count();
-
-        for (let i = 0; i < rows; i++) {
-            const name = await this.cartProductNames.nth(i).innerText();
-
-            // Check if the current product matches the expected product name
-            if (name.trim() === expectedName.trim()) {
-                const quantity = await this.cartProductQuantity.nth(i).innerText();
-
-                // Convert the quantity from text to a number and verify it matches the expected quantity
-                expect(Number(quantity.trim())).toBe(expectedQuantity);
-                return;
-            }
-        }
-
-        // Throw an error if the expected product was not found in the cart
-        throw new Error(`Product "${expectedName}" not found in cart`);
     }
 }
 
